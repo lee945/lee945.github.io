@@ -300,7 +300,7 @@ function render() {
 }
 */
 
-/* ========== 新代码 - 完整图片走路模式 (已美化优化版) ========== */
+/* ========== 新代码 - 完整图片走路模式 (已修复PJAX返回不显示问题) ========== */
 
 var peopleConfig = {
     src: GLOBAL_CONFIG.peoplecanvas.img,
@@ -319,6 +319,7 @@ let stage = { width: 0, height: 0 };
 let walkers = [];
 let lastTime = 0;
 let isbindPjax = false;
+let animationFrameId = null; // 【新增】用于保存动画的ID，方便切页面时销毁
 
 // 走路对象类 - 从左到右或从右到左循环平滑漂浮
 var Walker = (function () {
@@ -385,8 +386,8 @@ var Walker = (function () {
       value: function () {
         var imgHalfH = (img.height * this.scale) / 2; 
         
-        // 核心修复：预留底部卡片的遮挡距离（大约65像素）
-        var bottomMargin = 100; 
+        // 预留底部卡片的遮挡距离（大约65像素）
+        var bottomMargin = 65; 
         
         // 起始位置控制在偏下半区 (45%往下)
         var minY = stage.height * 0.45; 
@@ -422,6 +423,11 @@ var Walker = (function () {
 function cleanupPeopleCanvas() {
   window.removeEventListener("resize", resize);
   walkers.length = 0;
+  // 【新增】离开页面时，干净利落地关掉动画进程
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId);
+    animationFrameId = null;
+  }
 }
 
 function init() {
@@ -445,9 +451,8 @@ function createWalkers() {
         scale: peopleConfig.scale * (0.7 + Math.random() * 0.6),
         speed: speed,
         jumpHeight: peopleConfig.jumpHeight * (0.8 + Math.random() * 0.4),
-        // 降低频率：0.2-0.45次/秒，形成非常丝滑缓慢的“呼吸漂浮感”
-        jumpFreq: 0.3 + Math.random() * 0.25, 
-        opacity: 0.3 + Math.random() * 0.6, // 透明度错落有致
+        jumpFreq: 0.2 + Math.random() * 0.25, 
+        opacity: 0.3 + Math.random() * 0.6, 
         delay: i * (0 + Math.random() * 0.8) 
       })
     );
@@ -481,7 +486,8 @@ function renderLoop() {
   });
   ctx.restore();
 
-  requestAnimationFrame(renderLoop);
+  // 【修改】记录动画ID，用于PJAX切换时销毁
+  animationFrameId = requestAnimationFrame(renderLoop);
 }
 
 if (!isbindPjax) {
@@ -498,6 +504,9 @@ if (!isbindPjax) {
         resize();
         createWalkers();
         lastTime = performance.now();
+        // 【核心修复】重新回到页面时，把动画引擎再次启动！
+        renderLoop(); 
+        window.addEventListener("resize", resize);
       }, 300);
     }
   });
