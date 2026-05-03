@@ -55,6 +55,9 @@ function _defineProperties(e, r) {
 function _createClass(e, r, t) {
   return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), e;
 }
+
+/* ========== 原代码（已注释） - 切割图片模式 ========== */
+/*
 var peopleConfig = {
     src: GLOBAL_CONFIG.peoplecanvas.img,
     rows: 15,
@@ -294,4 +297,208 @@ function render() {
       e.render(ctx);
     }),
     ctx.restore();
+}
+*/
+
+/* ========== 新代码 - 完整图片走路模式 (已美化优化版) ========== */
+
+var peopleConfig = {
+    src: GLOBAL_CONFIG.peoplecanvas.img,
+    scale: 0.08,   // 图片缩放比例 8%
+    count: 20,     // 显示的图片数量
+    jumpHeight: 15,// 漂浮振幅加大，让缓慢的漂浮更有呼吸感
+    speedMin: 12,  // 最快走完时间(秒) - 变慢，更优雅
+    speedMax: 35,  // 最慢走完时间(秒) - 变慢，更优雅
+  },
+  img = document.createElement("img");
+
+(img.onload = init), (img.src = peopleConfig.src);
+let peoplecanvasEl = document.getElementById("peoplecanvas");
+let ctx = peoplecanvasEl ? peoplecanvasEl.getContext("2d") : undefined;
+let stage = { width: 0, height: 0 };
+let walkers = [];
+let lastTime = 0;
+let isbindPjax = false;
+
+// 走路对象类 - 从左到右或从右到左循环平滑漂浮
+var Walker = (function () {
+  function a(e) {
+    _classCallCheck(this, a);
+    this.direction = Math.random() > 0.5 ? 1 : -1; 
+    this.speed = e.speed; 
+    this.scale = e.scale || 1;
+    this.jumpHeight = e.jumpHeight || 15;
+    this.jumpFreq = e.jumpFreq || 0.2; // 极低频率
+    this.opacity = e.opacity || 0.8;
+    this.delay = e.delay || 0; 
+    this.active = false; 
+
+    // 初始化位置：从屏幕外开始
+    if (this.direction > 0) {
+      this.x = -50;
+    } else {
+      this.x = stage.width + 50;
+    }
+
+    this.resetYPosition();
+    this.y = this.baseY;
+    this.jumpPhase = Math.random() * Math.PI * 2;
+    this.elapsedTime = 0; 
+  }
+
+  _createClass(a, [
+    {
+      key: "update",
+      value: function (dt) {
+        if (!this.active) {
+          this.elapsedTime += dt;
+          if (this.elapsedTime >= this.delay) {
+            this.active = true;
+            if (this.direction > 0) {
+              this.x = -50;
+            } else {
+              this.x = stage.width + 50;
+            }
+          }
+          return; 
+        }
+
+        // 水平移动
+        this.x += this.direction * this.speed * dt;
+
+        // 上下平滑漂浮 (纯正弦波)
+        this.jumpPhase += this.jumpFreq * dt * Math.PI * 2;
+        this.y = this.baseY + Math.sin(this.jumpPhase) * this.jumpHeight;
+
+        // 到达边界后重置到另一边
+        if (this.direction > 0 && this.x > stage.width + 60) {
+          this.x = -60;
+          this.resetYPosition();
+        } else if (this.direction < 0 && this.x < -60) {
+          this.x = stage.width + 60;
+          this.resetYPosition();
+        }
+      }
+    },
+    {
+      key: "resetYPosition",
+      value: function () {
+        var imgHalfH = (img.height * this.scale) / 2; 
+        
+        // 核心修复：预留底部卡片的遮挡距离（大约65像素）
+        var bottomMargin = 100; 
+        
+        // 起始位置控制在偏下半区 (45%往下)
+        var minY = stage.height * 0.45; 
+        
+        // 最大 Y 值 = 屏幕高度 - 图片半高 - 漂浮振幅 - 底部安全遮挡距离
+        var maxY = stage.height - imgHalfH - this.jumpHeight - bottomMargin; 
+        
+        // 防止极端情况下高度不够导致反转
+        if (maxY < minY) {
+            maxY = minY + 10;
+        }
+        
+        this.baseY = minY + Math.random() * (maxY - minY);
+      }
+    },
+    {
+      key: "render",
+      value: function (e) {
+        if (!this.active) return;
+        e.save();
+        e.globalAlpha = this.opacity;
+        e.translate(this.x, this.y);
+        e.scale(this.scale * this.direction, this.scale); 
+        e.drawImage(img, -img.width / 2, -img.height / 2);
+        e.restore();
+      }
+    }
+  ]);
+
+  return a;
+})();
+
+function cleanupPeopleCanvas() {
+  window.removeEventListener("resize", resize);
+  walkers.length = 0;
+}
+
+function init() {
+  if (!peoplecanvasEl) return;
+  resize();
+  createWalkers();
+  lastTime = performance.now();
+  renderLoop();
+  window.addEventListener("resize", resize);
+}
+
+function createWalkers() {
+  walkers.length = 0;
+  var count = peopleConfig.count;
+  for (var i = 0; i < count; i++) {
+    var duration = peopleConfig.speedMin + Math.random() * (peopleConfig.speedMax - peopleConfig.speedMin);
+    var speed = (stage.width + 120) / duration; 
+
+    walkers.push(
+      new Walker({
+        scale: peopleConfig.scale * (0.7 + Math.random() * 0.6),
+        speed: speed,
+        jumpHeight: peopleConfig.jumpHeight * (0.8 + Math.random() * 0.4),
+        // 降低频率：0.2-0.45次/秒，形成非常丝滑缓慢的“呼吸漂浮感”
+        jumpFreq: 0.3 + Math.random() * 0.25, 
+        opacity: 0.3 + Math.random() * 0.6, // 透明度错落有致
+        delay: i * (0 + Math.random() * 0.8) 
+      })
+    );
+  }
+}
+
+function resize() {
+  if (!peoplecanvasEl || peoplecanvasEl.clientWidth == 0) return;
+  stage.width = peoplecanvasEl.clientWidth;
+  stage.height = peoplecanvasEl.clientHeight;
+  peoplecanvasEl.width = stage.width * devicePixelRatio;
+  peoplecanvasEl.height = stage.height * devicePixelRatio;
+  createWalkers();
+}
+
+function renderLoop() {
+  if (!peoplecanvasEl) return;
+
+  var now = performance.now();
+  var dt = (now - lastTime) / 1000; 
+  lastTime = now;
+
+  if (dt > 0.1) dt = 0.016; 
+
+  peoplecanvasEl.width = peoplecanvasEl.width;
+  ctx.save();
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  walkers.forEach(function (w) {
+    w.update(dt);
+    w.render(ctx);
+  });
+  ctx.restore();
+
+  requestAnimationFrame(renderLoop);
+}
+
+if (!isbindPjax) {
+  isbindPjax = true;
+  document.addEventListener("pjax:send", function () {
+    cleanupPeopleCanvas();
+  });
+  document.addEventListener("pjax:success", function () {
+    peoplecanvasEl = document.getElementById("peoplecanvas");
+    if (peoplecanvasEl) {
+      ctx = peoplecanvasEl.getContext("2d");
+      setTimeout(function () {
+        if (!peoplecanvasEl) return;
+        resize();
+        createWalkers();
+        lastTime = performance.now();
+      }, 300);
+    }
+  });
 }
